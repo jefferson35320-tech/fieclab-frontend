@@ -4,10 +4,11 @@ import { useState } from "react";
 function InteractiveStars({ value, onSelect, size }) {
   const [hover, setHover] = useState(0);
   const display = hover || value;
+  const starSizeClass = size === "lg" ? "text-[30px]" : "text-[22px]";
 
   return (
     <div
-      className={`star-rating interactive ${size}`}
+      className="flex items-center gap-0.5"
       role="radiogroup"
       aria-label="Avalie este produto de 0 a 5 estrelas"
     >
@@ -15,7 +16,7 @@ function InteractiveStars({ value, onSelect, size }) {
         <button
           key={n}
           type="button"
-          className="star-btn"
+          className={`bg-transparent border-none p-0.5 cursor-pointer text-accent leading-none ${starSizeClass}`}
           role="radio"
           aria-checked={value === n}
           aria-label={`${n} estrela${n > 1 ? "s" : ""}`}
@@ -37,26 +38,30 @@ function ReadOnlyStars({ value, count, size }) {
   const safeValue = Number.isFinite(value) ? value : 0;
   const percent = Math.max(0, Math.min(100, (safeValue / 5) * 100));
 
+  const wrapperClass =
+    size === "sm" ? "mt-1.5 text-[13px]" : "my-1 mb-[18px] text-base";
+  const starClass = size === "sm" ? "text-[14px]" : "text-[18px]";
+
   return (
     <div
-      className={`star-rating readonly ${size}`}
+      className={`flex items-center gap-1.5 ${wrapperClass}`}
       aria-label={`Avaliação média de ${safeValue.toFixed(1)} de 5 estrelas`}
     >
-      <div className="star-display">
-        <div className="stars-back" aria-hidden="true">
+      <div className={`relative inline-block leading-none ${starClass}`}>
+        <div className="text-border whitespace-nowrap tracking-[2px]" aria-hidden="true">
           ★★★★★
         </div>
         <div
-          className="stars-front"
+          className="absolute top-0 left-0 overflow-hidden whitespace-nowrap text-accent tracking-[2px]"
           style={{ width: `${percent}%` }}
           aria-hidden="true"
         >
           ★★★★★
         </div>
       </div>
-      <span className="rating-value">{safeValue.toFixed(1)}</span>
+      <span className="font-bold text-ink text-[0.85em]">{safeValue.toFixed(1)}</span>
       {typeof count === "number" && (
-        <span className="rating-count">({count})</span>
+        <span className="text-muted text-[0.85em]">({count})</span>
       )}
     </div>
   );
