@@ -64,9 +64,12 @@ function ProductModal({ product, onClose, addToCart, ratingOverride, onRate }) {
   }
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div
+      className="fixed inset-0 z-40 flex animate-fadeIn items-center justify-center bg-[#0b2822]/45 p-6 backdrop-blur-[2px]"
+      onClick={onClose}
+    >
       <div
-        className="product-modal"
+        className="relative flex max-h-[88vh] w-full max-w-[480px] animate-slideUp flex-col overflow-y-auto rounded-brand bg-surface shadow-brand-md"
         role="dialog"
         aria-modal="true"
         aria-label={product.name}
@@ -74,30 +77,39 @@ function ProductModal({ product, onClose, addToCart, ratingOverride, onRate }) {
       >
         <button
           type="button"
-          className="modal-close-btn"
+          className="absolute right-3.5 top-3.5 z-[2] flex h-8 w-8 items-center justify-center rounded-full border-none bg-white/85 text-[15px] text-primary-dark transition hover:bg-primary-light"
           onClick={onClose}
           aria-label="Fechar"
         >
           ✕
         </button>
 
-        <div className="modal-image">
-          {outOfStock && <span className="stock-badge">Esgotado</span>}
-          <span className="product-icon" aria-hidden="true">
+        <div className="relative flex h-[200px] items-center justify-center rounded-t-brand bg-placeholder-gradient text-primary">
+          {outOfStock && (
+            <span className="absolute left-2.5 top-2.5 z-[1] rounded-full bg-danger px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-white">
+              Esgotado
+            </span>
+          )}
+          <span className="text-[84px] leading-none" aria-hidden="true">
             {product.icon}
           </span>
         </div>
 
-        <div className="modal-content">
-          <span className="modal-category-tag">{product.category}</span>
-          <h2>{product.name}</h2>
+        <div className="flex flex-col p-6">
+          <span className="mb-2.5 inline-block w-fit rounded-full bg-primary-light px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-primary-dark">
+            {product.category}
+          </span>
+          <h2 className="m-0 mb-4 font-display text-[22px] font-bold text-ink">
+            {product.name}
+          </h2>
 
           <StarRating value={displayRating} count={displayCount} size="md" />
 
-          <div className="product-options">
-            <label className="product-option">
+          <div className="mb-3.5 flex flex-col gap-2.5">
+            <label className="flex flex-col gap-1 text-xs font-semibold uppercase tracking-wide text-muted">
               <span>Tamanho</span>
               <select
+                className="cursor-pointer rounded-lg border border-line bg-page px-2.5 py-2.5 font-body text-sm font-medium normal-case tracking-normal text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary"
                 value={selectedSizeId}
                 onChange={(e) => setSelectedSizeId(e.target.value)}
               >
@@ -110,9 +122,10 @@ function ProductModal({ product, onClose, addToCart, ratingOverride, onRate }) {
             </label>
 
             {product.aromas.length > 0 && (
-              <label className="product-option">
+              <label className="flex flex-col gap-1 text-xs font-semibold uppercase tracking-wide text-muted">
                 <span>Aroma</span>
                 <select
+                  className="cursor-pointer rounded-lg border border-line bg-page px-2.5 py-2.5 font-body text-sm font-medium normal-case tracking-normal text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary"
                   value={selectedAroma}
                   onChange={(e) => setSelectedAroma(e.target.value)}
                 >
@@ -126,15 +139,17 @@ function ProductModal({ product, onClose, addToCart, ratingOverride, onRate }) {
             )}
           </div>
 
-          <p className="modal-price">R$ {formatPrice(selectedSize.price)}</p>
+          <p className="m-0 mb-4 text-xl font-bold text-primary-dark">
+            R$ {formatPrice(selectedSize.price)}
+          </p>
 
           {/* ---------- estoque / adicionar ao carrinho / avise-me ---------- */}
           {outOfStock ? (
-            <div className="stock-info stock-unavailable">
+            <div className="mb-3.5 text-sm font-semibold text-danger">
               <span>❌ Produto indisponível no momento</span>
             </div>
           ) : (
-            <div className="stock-info stock-available">
+            <div className="mb-3.5 text-sm font-semibold text-success">
               <span>
                 ✅ Em estoque ({product.stock}{" "}
                 {product.stock === 1 ? "unidade" : "unidades"} disponíveis)
@@ -144,36 +159,47 @@ function ProductModal({ product, onClose, addToCart, ratingOverride, onRate }) {
 
           {outOfStock ? (
             notifySubmitted ? (
-              <p className="notify-confirmation">
+              <p className="m-0 mb-[18px] rounded-[10px] bg-primary-light px-3.5 py-3 text-[13px] leading-relaxed text-primary-dark">
                 Prontinho! Você será avisado(a) em <strong>{notifyEmail}</strong>{" "}
                 assim que o produto voltar ao estoque.
               </p>
             ) : (
-              <form className="notify-form" onSubmit={handleNotifySubmit}>
-                <label className="notify-label" htmlFor={`notify-${product.id}`}>
+              <form
+                className="mb-[18px] flex flex-col gap-2"
+                onSubmit={handleNotifySubmit}
+              >
+                <label
+                  className="text-[13px] font-semibold text-ink"
+                  htmlFor={`notify-${product.id}`}
+                >
                   Avise-me quando este produto voltar ao estoque
                 </label>
-                <div className="notify-row">
+                <div className="flex gap-2">
                   <input
                     id={`notify-${product.id}`}
                     type="email"
-                    className="notify-input"
+                    className="flex-1 rounded-lg border border-line bg-page px-3 py-2.5 font-body text-sm text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary"
                     placeholder="seu@email.com"
                     value={notifyEmail}
                     onChange={(e) => setNotifyEmail(e.target.value)}
                     required
                   />
-                  <button type="submit" className="notify-btn">
+                  <button
+                    type="submit"
+                    className="whitespace-nowrap rounded-lg bg-accent px-[18px] py-2.5 text-sm font-bold text-primary-dark transition hover:brightness-95"
+                  >
                     Avisar
                   </button>
                 </div>
-                {notifyError && <p className="notify-error">{notifyError}</p>}
+                {notifyError && (
+                  <p className="m-0 text-xs text-danger">{notifyError}</p>
+                )}
               </form>
             )
           ) : (
             <button
               type="button"
-              className="add-to-cart-btn"
+              className="mt-auto w-full rounded-full border-none bg-primary px-4 py-[11px] font-body text-sm font-semibold text-white transition hover:-translate-y-px hover:bg-primary-dark"
               onClick={handleAddToCart}
             >
               Adicionar ao carrinho
@@ -181,10 +207,12 @@ function ProductModal({ product, onClose, addToCart, ratingOverride, onRate }) {
           )}
 
           {/* ---------- avaliação do usuário ---------- */}
-          <div className="rate-product-section">
-            <h4>Avalie este produto</h4>
+          <div className="my-[18px] flex flex-col gap-2.5 border-y border-line py-4">
+            <h4 className="m-0 font-display text-[13px] font-bold uppercase tracking-wide text-primary-dark">
+              Avalie este produto
+            </h4>
             {ratingSubmitted ? (
-              <p className="rating-thankyou">
+              <p className="m-0 text-sm font-semibold text-primary-dark">
                 Obrigado por avaliar! Sua nota: {myRating}★
               </p>
             ) : (
@@ -197,7 +225,7 @@ function ProductModal({ product, onClose, addToCart, ratingOverride, onRate }) {
                 />
                 <button
                   type="button"
-                  className="submit-rating-btn"
+                  className="self-start rounded-full border-none bg-primary px-4 py-2 font-body text-[13px] font-semibold text-white transition enabled:hover:bg-primary-dark disabled:cursor-not-allowed disabled:bg-line disabled:text-muted"
                   onClick={handleSubmitRating}
                   disabled={myRating === 0}
                 >
@@ -209,7 +237,7 @@ function ProductModal({ product, onClose, addToCart, ratingOverride, onRate }) {
 
           <button
             type="button"
-            className="info-toggle-btn"
+            className="mt-3 w-full rounded-full border-none bg-primary-light px-4 py-[11px] font-body text-sm font-semibold text-primary-dark transition hover:bg-line"
             onClick={() => setShowInfo((prev) => !prev)}
             aria-expanded={showInfo}
           >
@@ -217,25 +245,41 @@ function ProductModal({ product, onClose, addToCart, ratingOverride, onRate }) {
           </button>
 
           {showInfo && (
-            <div className="product-info-panel">
-              <div className="info-block">
-                <h4>Como utilizar</h4>
-                <p>{product.howToUse}</p>
+            <div className="mt-[18px] flex flex-col gap-3.5 border-t border-line pt-[18px]">
+              <div>
+                <h4 className="m-0 mb-1 font-display text-[13px] font-bold uppercase tracking-wide text-primary-dark">
+                  Como utilizar
+                </h4>
+                <p className="m-0 text-sm leading-relaxed text-ink">
+                  {product.howToUse}
+                </p>
               </div>
 
-              <div className="info-block">
-                <h4>Armazenamento</h4>
-                <p>{product.storage}</p>
+              <div>
+                <h4 className="m-0 mb-1 font-display text-[13px] font-bold uppercase tracking-wide text-primary-dark">
+                  Armazenamento
+                </h4>
+                <p className="m-0 text-sm leading-relaxed text-ink">
+                  {product.storage}
+                </p>
               </div>
 
-              <div className="info-block">
-                <h4>Precauções</h4>
-                <p>{product.precautions}</p>
+              <div>
+                <h4 className="m-0 mb-1 font-display text-[13px] font-bold uppercase tracking-wide text-primary-dark">
+                  Precauções
+                </h4>
+                <p className="m-0 text-sm leading-relaxed text-ink">
+                  {product.precautions}
+                </p>
               </div>
 
-              <div className="info-block">
-                <h4>Ingredientes</h4>
-                <p>{product.ingredients}</p>
+              <div>
+                <h4 className="m-0 mb-1 font-display text-[13px] font-bold uppercase tracking-wide text-primary-dark">
+                  Ingredientes
+                </h4>
+                <p className="m-0 text-sm leading-relaxed text-ink">
+                  {product.ingredients}
+                </p>
               </div>
             </div>
           )}
