@@ -9,8 +9,6 @@ import OrderConfirmationPopup from "./components/OrderConfirmationPopup";
 import products from "./data/products";
 import { createOrder } from "./data/orders";
 
-import "./App.css";
-
 const CATEGORIES = ["Higiene", "Limpeza", "Cama, Mesa e Banho"];
 
 function App() {
@@ -128,16 +126,26 @@ function App() {
     <div>
       <Header cartCount={cart.length} toggleCart={toggleCart} />
 
-      <div className="page">
-        <h1 className="page-title">Nossos produtos</h1>
-        <p className="page-subtitle">
+      <div className="mx-auto max-w-[1240px] px-5 pb-20 pt-10 sm:px-14">
+        <h1 className="m-0 mb-1.5 font-display text-2xl font-bold text-primary-dark sm:text-[32px]">
+          Nossos produtos
+        </h1>
+        <p className="m-0 mb-8 text-[15px] text-muted">
           Escolha o tamanho e o aroma antes de adicionar ao carrinho.
         </p>
 
-        <div className="category-tabs" role="tablist" aria-label="Categorias de produtos">
+        <div
+          className="mb-7 flex flex-wrap gap-2.5"
+          role="tablist"
+          aria-label="Categorias de produtos"
+        >
           <button
             type="button"
-            className={`category-tab ${selectedCategory === "Todos" ? "active" : ""}`}
+            className={`rounded-full border border-transparent px-[18px] py-2.5 font-body text-[13px] font-semibold transition ${
+              selectedCategory === "Todos"
+                ? "bg-primary text-white"
+                : "bg-primary-light text-primary-dark hover:bg-line"
+            }`}
             onClick={() => setSelectedCategory("Todos")}
           >
             Todos
@@ -146,8 +154,10 @@ function App() {
             <button
               key={category}
               type="button"
-              className={`category-tab ${
-                selectedCategory === category ? "active" : ""
+              className={`rounded-full border border-transparent px-[18px] py-2.5 font-body text-[13px] font-semibold transition ${
+                selectedCategory === category
+                  ? "bg-primary text-white"
+                  : "bg-primary-light text-primary-dark hover:bg-line"
               }`}
               onClick={() => setSelectedCategory(category)}
             >
@@ -157,11 +167,11 @@ function App() {
         </div>
 
         {filteredProducts.length === 0 ? (
-          <p className="empty-category-message">
+          <p className="py-10 text-center text-sm text-muted">
             Nenhum produto nesta categoria no momento.
           </p>
         ) : (
-          <div className="product-grid">
+          <div className="grid grid-cols-1 gap-6 cols-2:grid-cols-2 cols-3:grid-cols-3 cols-4:grid-cols-4">
             {filteredProducts.map((product) => (
               <ProductCard
                 key={product.id}
