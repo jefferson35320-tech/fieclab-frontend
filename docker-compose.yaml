@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  frontend:
+    image: fieclab/frontend-fieclab:latest
+    container_name: frontend-fieclab
+    ports:
+      - "3000:3000" # Mapeia a porta da sua máquina (esquerda) para a do container (direita)
+    restart: always
