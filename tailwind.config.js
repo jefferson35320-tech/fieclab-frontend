@@ -10,16 +10,17 @@ module.exports = {
       },
       colors: {
         primary: {
-          DEFAULT: "#0b6e5d",
-          dark: "#084f42",
-          light: "#e3f3ef",
+          DEFAULT: "#006e85",
+          dark: "#004f5f",
+          light: "#e0eef1",
         },
-        accent: "#f0a202",
+        accent: "#e50020",
+        star: "#f5a623",
         surface: "#ffffff",
-        page: "#f5faf9",
-        ink: "#12302b",
-        muted: "#5b7770",
-        line: "#e1ede9",
+        page: "#f4f8f9",
+        ink: "#20302f",
+        muted: "#6d757d",
+        line: "#dde7e8",
         danger: "#c0392b",
         success: "#1e7d4b",
       },
@@ -32,14 +33,16 @@ module.exports = {
         "brand-sm": "8px",
       },
       boxShadow: {
-        "brand-sm": "0 1px 3px rgba(11, 110, 93, 0.08)",
-        "brand-md": "0 10px 30px rgba(11, 110, 93, 0.12)",
-        sidebar: "-12px 0 30px rgba(11, 110, 93, 0.15)",
+        "brand-sm": "0 1px 3px rgba(0, 110, 133, 0.08)",
+        "brand-md": "0 10px 30px rgba(0, 110, 133, 0.12)",
+        sidebar: "-12px 0 30px rgba(0, 110, 133, 0.15)",
       },
       backgroundImage: {
         dots: "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.08) 1px, transparent 0)",
         "placeholder-gradient":
-          "linear-gradient(135deg, #e3f3ef, #d5efe8)",
+          "linear-gradient(135deg, #e0eef1, #d0e5e8)",
+        "header-glow":
+          "radial-gradient(120% 180% at 15% 0%, rgba(229,0,32,0.35) 0%, transparent 55%), linear-gradient(120deg, #008ba6 0%, #006e85 45%, #004f5f 100%)",
       },
       backgroundSize: {
         dots: "18px 18px",
@@ -53,10 +56,15 @@ module.exports = {
           from: { opacity: "0", transform: "translateY(16px)" },
           to: { opacity: "1", transform: "translateY(0)" },
         },
+        pulseRing: {
+          "0%, 100%": { boxShadow: "0 0 0 0 rgba(229,0,32,0.45)" },
+          "50%": { boxShadow: "0 0 0 6px rgba(229,0,32,0)" },
+        },
       },
       animation: {
         fadeIn: "fadeIn 0.2s ease",
         slideUp: "slideUp 0.25s ease",
+        pulseRing: "pulseRing 2.2s ease-in-out infinite",
       },
     },
   },

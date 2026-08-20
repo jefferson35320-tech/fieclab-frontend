@@ -25,7 +25,7 @@ function InteractiveStars({ value, onSelect, size }) {
         <button
           key={n}
           type="button"
-          className={`cursor-pointer border-none bg-none p-0.5 leading-none text-accent ${
+          className={`cursor-pointer border-none bg-none p-0.5 leading-none text-star ${
             INTERACTIVE_STAR_SIZE[size] || INTERACTIVE_STAR_SIZE.md
           }`}
           role="radio"
@@ -64,7 +64,7 @@ function ReadOnlyStars({ value, count, size }) {
           ★★★★★
         </div>
         <div
-          className={`absolute left-0 top-0 overflow-hidden whitespace-nowrap tracking-[2px] text-accent ${starSize}`}
+          className={`absolute left-0 top-0 overflow-hidden whitespace-nowrap tracking-[2px] text-star ${starSize}`}
           style={{ width: `${percent}%` }}
           aria-hidden="true"
         >

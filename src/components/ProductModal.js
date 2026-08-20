@@ -186,7 +186,7 @@ function ProductModal({ product, onClose, addToCart, ratingOverride, onRate }) {
                   />
                   <button
                     type="submit"
-                    className="whitespace-nowrap rounded-lg bg-accent px-[18px] py-2.5 text-sm font-bold text-primary-dark transition hover:brightness-95"
+                    className="whitespace-nowrap rounded-lg bg-accent px-[18px] py-2.5 text-sm font-bold text-white transition hover:brightness-95"
                   >
                     Avisar
                   </button>

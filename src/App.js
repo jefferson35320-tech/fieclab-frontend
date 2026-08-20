@@ -5,6 +5,7 @@ import ProductCard from "./components/ProductCard";
 import ProductModal from "./components/ProductModal";
 import CartSidebar from "./components/CartSidebar";
 import OrderConfirmationPopup from "./components/OrderConfirmationPopup";
+import WhatsAppButton from "./components/WhatsAppButton";
 
 import products from "./data/products";
 import { createOrder } from "./data/orders";
@@ -212,6 +213,8 @@ function App() {
         order={order}
         startNewOrder={startNewOrder}
       />
+
+      <WhatsAppButton />
     </div>
   );
 }
