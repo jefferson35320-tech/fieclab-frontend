@@ -27,6 +27,7 @@ module.exports = {
       fontFamily: {
         display: ["Sora", "Inter", "sans-serif"],
         body: ["Inter", "sans-serif"],
+        academic: ["Fraunces", "Georgia", "serif"],
       },
       borderRadius: {
         brand: "14px",
@@ -42,7 +43,7 @@ module.exports = {
         "placeholder-gradient":
           "linear-gradient(135deg, #e0eef1, #d0e5e8)",
         "header-glow":
-          "radial-gradient(120% 180% at 15% 0%, rgba(229,0,32,0.35) 0%, transparent 55%), linear-gradient(120deg, #008ba6 0%, #006e85 45%, #004f5f 100%)",
+          "radial-gradient(120% 180% at 15% 0%, rgba(229,0,32,0.08) 0%, transparent 55%), linear-gradient(120deg, #f6f2e9 0%, #efe8d8 55%, #e6dcc4 100%)",
       },
       backgroundSize: {
         dots: "18px 18px",
@@ -60,11 +61,18 @@ module.exports = {
           "0%, 100%": { boxShadow: "0 0 0 0 rgba(229,0,32,0.45)" },
           "50%": { boxShadow: "0 0 0 6px rgba(229,0,32,0)" },
         },
+        drift: {
+          "0%, 100%": { transform: "translate(0, 0) rotate(0deg)" },
+          "25%": { transform: "translate(6px, -10px) rotate(6deg)" },
+          "50%": { transform: "translate(-4px, -4px) rotate(-4deg)" },
+          "75%": { transform: "translate(-8px, -14px) rotate(3deg)" },
+        },
       },
       animation: {
         fadeIn: "fadeIn 0.2s ease",
         slideUp: "slideUp 0.25s ease",
         pulseRing: "pulseRing 2.2s ease-in-out infinite",
+        drift: "drift 7s ease-in-out infinite",
       },
     },
   },
