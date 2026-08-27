@@ -8,6 +8,7 @@ import {
   Dna,
   ShoppingCart,
 } from "lucide-react";
+import Logo from "./Logo";
 
 const FLOATING_ICONS = [
   { Icon: TestTube, top: "12%", left: "6%", size: "h-8 w-8", duration: "6s", delay: "0s", opacity: "opacity-35", color: "text-primary" },
@@ -50,12 +51,8 @@ function Header({ cartCount, toggleCart }) {
         ))}
       </div>
 
-      <div className="relative z-10 flex items-center">
-        <img
-          src="/logo-fieclab.png"
-          alt="FiecLab"
-          className="h-16 w-auto object-contain sm:h-24 [filter:drop-shadow(0_1px_1px_rgba(0,0,0,0.4))_drop-shadow(0_6px_14px_rgba(0,0,0,0.28))]"
-        />
+      <div className="relative z-10">
+        <Logo />
       </div>
 
       <button
