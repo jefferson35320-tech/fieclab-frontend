@@ -17,7 +17,22 @@ function ProductCard({ product, onOpen, ratingOverride }) {
             Esgotado
           </span>
         )}
-        <span className="text-5xl leading-none" aria-hidden="true">
+        {product.image ? (
+          <img
+            src={product.image}
+            alt={product.name}
+            className="h-full w-full rounded-[8px] object-contain p-2"
+            onError={(e) => {
+              e.currentTarget.style.display = "none";
+              e.currentTarget.nextElementSibling.style.display = "block";
+            }}
+          />
+        ) : null}
+        <span
+          className="text-5xl leading-none"
+          style={product.image ? { display: "none" } : undefined}
+          aria-hidden="true"
+        >
           {product.icon}
         </span>
       </div>

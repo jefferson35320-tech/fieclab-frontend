@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import StarRating from "./StarRating";
+import ImageLightbox from "./ImageLightbox";
 
 function formatPrice(value) {
   return value.toFixed(2).replace(".", ",");
@@ -23,6 +24,23 @@ function ProductModal({ product, onClose, addToCart, ratingOverride, onRate }) {
 
   const selectedSize = product.sizes.find((s) => s.id === selectedSizeId);
   const outOfStock = product.stock === 0;
+
+  // Fotos da variação (tamanho + aroma) escolhida - pode ter frente e verso.
+  // Se não houver fotos específicas para essa combinação, cai pra foto padrão do produto.
+  const variantKey = `${selectedSizeId}|${selectedAroma}`;
+  const images =
+    (product.variantImages && product.variantImages[variantKey]) ||
+    (product.image ? [product.image] : []);
+
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+
+  // sempre que trocar tamanho/aroma, volta pra primeira foto (frente) da nova variação
+  useEffect(() => {
+    setActiveImageIndex(0);
+  }, [variantKey]);
+
+  const displayImage = images[activeImageIndex] || images[0];
 
   const displayRating = ratingOverride ? ratingOverride.rating : product.rating;
   const displayCount = ratingOverride ? ratingOverride.count : product.ratingCount;
@@ -90,10 +108,83 @@ function ProductModal({ product, onClose, addToCart, ratingOverride, onRate }) {
               Esgotado
             </span>
           )}
-          <span className="text-[84px] leading-none" aria-hidden="true">
+          {displayImage ? (
+            <img
+              key={`${variantKey}-${activeImageIndex}`}
+              src={displayImage}
+              alt={`${product.name}${selectedAroma ? " - " + selectedAroma : ""}`}
+              className="h-full w-full animate-fadeIn cursor-zoom-in rounded-t-brand object-contain p-4"
+              onClick={() => setLightboxOpen(true)}
+              onError={(e) => {
+                e.currentTarget.style.display = "none";
+                e.currentTarget.nextElementSibling.style.display = "block";
+              }}
+            />
+          ) : null}
+          <span
+            className="text-[84px] leading-none"
+            style={displayImage ? { display: "none" } : undefined}
+            aria-hidden="true"
+          >
             {product.icon}
           </span>
+
+          {displayImage && images.length > 1 && (
+            <>
+              <button
+                type="button"
+                className="absolute left-2 top-1/2 z-[2] flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border-none bg-white/85 text-base text-primary-dark transition hover:bg-white"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActiveImageIndex((i) => (i - 1 + images.length) % images.length);
+                }}
+                aria-label="Foto anterior"
+              >
+                ‹
+              </button>
+              <button
+                type="button"
+                className="absolute right-2 top-1/2 z-[2] flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border-none bg-white/85 text-base text-primary-dark transition hover:bg-white"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActiveImageIndex((i) => (i + 1) % images.length);
+                }}
+                aria-label="Próxima foto"
+              >
+                ›
+              </button>
+
+              <div className="absolute bottom-2.5 left-1/2 z-[2] flex -translate-x-1/2 gap-1.5">
+                {images.map((img, i) => (
+                  <button
+                    key={img}
+                    type="button"
+                    className={`h-2 w-2 rounded-full border-none transition ${
+                      i === activeImageIndex
+                        ? "bg-primary-dark"
+                        : "bg-white/70 hover:bg-white"
+                    }`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActiveImageIndex(i);
+                    }}
+                    aria-label={`Ir para foto ${i + 1} (${i === 0 ? "frente" : "verso"})`}
+                  />
+                ))}
+              </div>
+            </>
+          )}
         </div>
+
+        {lightboxOpen && displayImage && (
+          <ImageLightbox
+            images={images}
+            activeIndex={activeImageIndex}
+            onNavigate={setActiveImageIndex}
+            onClose={() => setLightboxOpen(false)}
+            alt={`${product.name}${selectedAroma ? " - " + selectedAroma : ""}`}
+          />
+        )}
 
         <div className="flex flex-col p-6">
           <span className="mb-2.5 inline-block w-fit rounded-full bg-primary-light px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-primary-dark">

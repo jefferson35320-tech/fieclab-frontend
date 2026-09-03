@@ -1,64 +1,43 @@
-// nomes dos produtos mantidos exatamente como definidos originalmente
+// Catálogo real de produtos FIEC - Fábrica Escola de Química
+// OBS: preços marcados como "editar" são placeholders - ajuste os valores reais antes de publicar.
 const products = [
   {
     id: 1,
-    name: "Creme de Mãos",
-    category: "Higiene",
-    rating: 4.6,
-    ratingCount: 132,
-    stock: 24,
-    icon: "🧴",
-    aromas: ["Neutro", "Lavanda", "Coco"],
-    sizes: [
-      { id: "60g", label: "60g", price: 9.9 },
-      { id: "120g", label: "120g", price: 16.9 },
-      { id: "250g", label: "250g", price: 27.9 },
-    ],
-    howToUse:
-      "Aplique uma pequena quantidade sobre as mãos limpas e massageie até completa absorção. Use quantas vezes forem necessárias ao longo do dia.",
-    storage:
-      "Conserve em local fresco e seco, ao abrigo da luz solar direta. Mantenha o frasco bem fechado após o uso.",
-    precautions:
-      "Uso externo. Evite contato com os olhos e mucosas; em caso de contato, enxágue com água em abundância. Suspenda o uso em caso de irritação e consulte um médico se persistir.",
-    ingredients:
-      "Aqua, Glycerin, Cetyl Alcohol, Manteiga de Karité, Óleo de Amêndoas, Dimethicone, Fenoxietanol, Fragrância, Tocoferol (Vitamina E).",
-  },
-  {
-    id: 2,
-    name: "Álcool em Gel",
-    category: "Higiene",
-    rating: 4.8,
-    ratingCount: 210,
-    stock: 40,
-    icon: "🧴",
-    aromas: ["Neutro", "Erva-doce"],
-    sizes: [
-      { id: "250ml", label: "250ml", price: 7.9 },
-      { id: "500ml", label: "500ml", price: 12.9 },
-      { id: "1L", label: "1L", price: 21.9 },
-    ],
-    howToUse:
-      "Aplique uma quantidade suficiente para cobrir as mãos e friccione até secar completamente, sem enxaguar.",
-    storage:
-      "Mantenha em local fresco, longe de fontes de calor e chama. Produto inflamável: armazene afastado de tomadas e equipamentos elétricos.",
-    precautions:
-      "Inflamável. Não ingerir. Evite contato com os olhos. Mantenha fora do alcance de crianças. Não utilize próximo a chamas ou fontes de calor.",
-    ingredients:
-      "Álcool Etílico 70° INPM, Água, Carbômero, Trietanolamina, Glicerina, Fragrância.",
-  },
-  {
-    id: 3,
     name: "Sabonete Líquido",
     category: "Higiene",
-    rating: 4.4,
-    ratingCount: 98,
-    stock: 15,
+    rating: 4.7,
+    ratingCount: 184,
+    stock: 30,
     icon: "🧼",
-    aromas: ["Neutro", "Lavanda", "Erva-doce"],
+    image: "/images/products/sabonete-liquido.jpg",
+    variantImages: {
+      "320ml|Alfazema": [
+        "/images/products/variants/sabonete-liquido-320ml-alfazema.jpg",
+        "/images/products/variants/sabonete-liquido-320ml-alfazema-verso.jpg",
+      ],
+      "320ml|Capim-limão": [
+        "/images/products/variants/sabonete-liquido-320ml-capim-limao.jpg",
+        "/images/products/variants/sabonete-liquido-320ml-capim-limao-verso.jpg",
+      ],
+      "320ml|Frutas Vermelhas": [
+        "/images/products/variants/sabonete-liquido-320ml-frutas-vermelhas.jpg",
+        "/images/products/variants/sabonete-liquido-320ml-frutas-vermelhas-verso.jpg",
+      ],
+      "320ml|Mirra": [
+        "/images/products/variants/sabonete-liquido-320ml-mirra.jpg",
+        "/images/products/variants/sabonete-liquido-320ml-mirra-verso.jpg",
+      ],
+      "320ml|Tutti-frutti": [
+        "/images/products/variants/sabonete-liquido-320ml-tutti-frutti.jpg",
+      ],
+      "2L|Alfazema": ["/images/products/variants/sabonete-liquido-2L-alfazema.jpg"],
+      "2L|Erva-doce": ["/images/products/variants/sabonete-liquido-2L-erva-doce.jpg"],
+      "2L|Mirra": ["/images/products/variants/sabonete-liquido-2L-mirra.jpg"],
+    },
+    aromas: ["Alfazema", "Erva-doce", "Mirra", "Capim-limão", "Frutas Vermelhas", "Tutti-frutti"],
     sizes: [
-      { id: "250ml", label: "250ml", price: 9.9 },
-      { id: "500ml", label: "500ml", price: 14.9 },
-      { id: "1L", label: "1L (refil)", price: 24.9 },
+      { id: "320ml", label: "320ml", price: 9.9 },
+      { id: "2L", label: "2L (refil)", price: 24.9 },
     ],
     howToUse:
       "Aplique sobre a pele úmida, massageie suavemente até formar espuma e enxágue com água em abundância.",
@@ -70,81 +49,22 @@ const products = [
       "Aqua, Sodium Laureth Sulfate, Cocamidopropyl Betaine, Glicerina, Cloreto de Sódio, Fragrância, Conservante, Corante.",
   },
   {
-    id: 4,
-    name: "Shampoo",
-    category: "Higiene",
-    rating: 4.7,
-    ratingCount: 156,
-    stock: 0,
-    icon: "🧴",
-    aromas: ["Neutro", "Coco", "Camomila"],
-    sizes: [
-      { id: "350ml", label: "350ml", price: 19.9 },
-      { id: "500ml", label: "500ml", price: 24.9 },
-    ],
-    howToUse:
-      "Aplique sobre os cabelos molhados, massageie o couro cabeludo até formar espuma e enxágue bem. Se necessário, repita a aplicação.",
-    storage:
-      "Mantenha em local fresco e seco, ao abrigo da luz solar. Feche bem a tampa após cada uso.",
-    precautions:
-      "Uso externo. Evite contato com os olhos; em caso de contato, enxágue com água em abundância. Não recomendado para peles ou couro cabeludo com lesões.",
-    ingredients:
-      "Aqua, Sodium Laureth Sulfate, Cocamidopropyl Betaine, Dimethicone, Panthenol, Fragrância, Conservante, Ácido Cítrico.",
-  },
-  {
-    id: 5,
-    name: "Condicionador",
-    category: "Higiene",
-    rating: 4.5,
-    ratingCount: 140,
-    stock: 18,
-    icon: "🧴",
-    aromas: ["Neutro", "Coco", "Camomila"],
-    sizes: [
-      { id: "350ml", label: "350ml", price: 19.9 },
-      { id: "500ml", label: "500ml", price: 24.9 },
-    ],
-    howToUse:
-      "Após lavar os cabelos, aplique nas pontas, deixe agir por 2 a 3 minutos e enxágue com água em abundância.",
-    storage:
-      "Conserve em local fresco e seco, ao abrigo da luz solar direta. Mantenha a embalagem bem fechada.",
-    precautions:
-      "Uso externo. Evite contato com os olhos; em caso de contato, enxágue com água em abundância. Suspenda o uso em caso de reação alérgica.",
-    ingredients:
-      "Aqua, Cetearyl Alcohol, Behentrimonium Chloride, Dimethicone, Panthenol, Óleo de Coco, Fragrância, Conservante.",
-  },
-  {
-    id: 6,
-    name: "Desinfetante Multiuso",
-    category: "Limpeza",
-    rating: 4.2,
-    ratingCount: 64,
-    stock: 0,
-    icon: "🧽",
-    aromas: ["Lavanda", "Eucalipto", "Cítrico"],
-    sizes: [
-      { id: "500ml", label: "500ml", price: 8.9 },
-      { id: "1L", label: "1L", price: 16.9 },
-      { id: "2L", label: "2L", price: 29.9 },
-    ],
-    howToUse:
-      "Diluir conforme indicação no rótulo e aplicar sobre a superfície a ser higienizada com um pano ou borrifador. Não é necessário enxaguar em superfícies não porosas.",
-    storage:
-      "Armazene em local fresco, seco e ventilado, longe do alcance de crianças e animais domésticos, e afastado de alimentos.",
-    precautions:
-      "Não ingerir. Não misture com outros produtos de limpeza, especialmente à base de cloro. Use luvas em caso de pele sensível. Mantenha fora do alcance de crianças.",
-    ingredients:
-      "Água, Tensoativo Aniônico, Cloreto de Alquil Dimetil Benzil Amônio, Fragrância, Corante, Conservante.",
-  },
-  {
-    id: 7,
+    id: 2,
     name: "Detergente",
     category: "Limpeza",
-    rating: 4.3,
-    ratingCount: 88,
-    stock: 60,
+    rating: 4.5,
+    ratingCount: 121,
+    stock: 50,
     icon: "🧴",
-    aromas: ["Neutro", "Limão"],
+    image: "/images/products/detergente.jpg",
+    variantImages: {
+      "500ml|Coco": ["/images/products/variants/detergente-500ml-coco.jpg"],
+      "500ml|Laranja": ["/images/products/variants/detergente-500ml-laranja.jpg"],
+      "500ml|Limão": ["/images/products/variants/detergente-500ml-limao.jpg"],
+      "500ml|Neutro": ["/images/products/variants/detergente-500ml-neutro.jpg"],
+      "5L|Laranja": ["/images/products/variants/detergente-5L-laranja.jpg"],
+    },
+    aromas: ["Neutro", "Coco", "Laranja", "Limão"],
     sizes: [
       { id: "500ml", label: "500ml", price: 3.9 },
       { id: "5L", label: "5L (galão)", price: 32.9 },
@@ -159,25 +79,194 @@ const products = [
       "Água, Tensoativo Aniônico e Não Iônico, Cloreto de Sódio, Fragrância, Corante, Conservante.",
   },
   {
-    id: 8,
-    name: "Papel Higiênico",
-    category: "Higiene",
-    rating: 4.9,
-    ratingCount: 302,
-    stock: 12,
-    icon: "🧻",
-    aromas: [],
-    sizes: [
-      { id: "4un", label: "4 rolos", price: 12.9 },
-      { id: "12un", label: "12 rolos", price: 34.9 },
-      { id: "16un", label: "16 rolos", price: 44.9 },
-    ],
+    id: 3,
+    name: "Água para Lençóis",
+    category: "Casa",
+    rating: 4.6,
+    ratingCount: 58,
+    stock: 20,
+    icon: "💦",
+    image: "/images/products/agua-para-lencois.jpg",
+    variantImages: {
+      "500ml|Bambo": [
+        "/images/products/variants/agua-para-lencois-500ml-bambo.jpg",
+        "/images/products/variants/agua-para-lencois-500ml-bambo-verso.jpg",
+      ],
+      "500ml|Garden": ["/images/products/variants/agua-para-lencois-500ml-garden.jpg"],
+    },
+    aromas: ["Bambo", "Garden"],
+    sizes: [{ id: "500ml", label: "500ml", price: 12.9 }],
     howToUse:
-      "Produto de uso pessoal para higiene. Utilize conforme a necessidade.",
+      "Borrife sobre lençóis, cortinas e tecidos em geral a uma distância de cerca de 20 cm, até leve umedecimento.",
     storage:
-      "Armazene em local seco, protegido da umidade, para preservar a qualidade do papel.",
-    precautions: "Não utilizar para outros fins que não a higiene pessoal.",
-    ingredients: "Fibras celulósicas 100% biodegradáveis.",
+      "Conserve em local fresco e ao abrigo da luz solar direta. Mantenha o frasco bem fechado após o uso.",
+    precautions:
+      "Uso externo em tecidos. Evite contato com os olhos. Não aplique diretamente sobre a pele. Mantenha fora do alcance de crianças.",
+    ingredients:
+      "Aqua, Álcool, Fragrância, Conservante.",
+  },
+  {
+    id: 4,
+    name: "Amaciante de Roupas",
+    category: "Limpeza",
+    rating: 4.8,
+    ratingCount: 96,
+    stock: 15,
+    icon: "🧺",
+    image: "/images/products/amaciante-de-roupas.jpg",
+    aromas: [],
+    sizes: [{ id: "5L", label: "5L", price: 39.9 }],
+    howToUse:
+      "Adicione ao ciclo de lavagem manual ou na máquina, no compartimento próprio, seguindo as indicações do rótulo.",
+    storage:
+      "Armazene em local fresco e seco, longe do alcance de crianças e animais domésticos.",
+    precautions:
+      "Não ingerir. Não utilize diretamente sobre a pele. Em caso de contato com os olhos, enxágue com água em abundância.",
+    ingredients:
+      "Água, Tensoativo Catiônico, Cloreto de Diaquil Dimetil Amônio, Corante, Fragrância, Conservante.",
+  },
+  {
+    id: 5,
+    name: "Creme para Massagem",
+    category: "Higiene",
+    rating: 4.7,
+    ratingCount: 73,
+    stock: 22,
+    icon: "🧴",
+    image: "/images/products/creme-para-massagem.jpg",
+    aromas: ["Arnica"],
+    sizes: [{ id: "120g", label: "120g", price: 15.9 }],
+    howToUse:
+      "Aplique sobre a região desejada e massageie suavemente até completa absorção. Pode ser reaplicado conforme a necessidade.",
+    storage:
+      "Conserve em local fresco e seco, ao abrigo da luz solar direta. Mantenha bem fechado após o uso.",
+    precautions:
+      "Uso externo. Hipoalergênico e dermatologicamente testado. Evite contato com os olhos e mucosas. Suspenda o uso em caso de irritação.",
+    ingredients:
+      "Aqua, Extrato de Arnica, Cetil Álcool, Dimethicone, Fenoxietanol, Fragrância.",
+  },
+  {
+    id: 6,
+    name: "Desinfetante e Limpador",
+    category: "Limpeza",
+    rating: 4.6,
+    ratingCount: 110,
+    stock: 18,
+    icon: "🧽",
+    image: "/images/products/desinfetante-e-limpador.jpg",
+    aromas: ["Lavanda"],
+    sizes: [{ id: "5L", label: "5L", price: 34.9 }],
+    howToUse:
+      "Para desinfecção de vasos sanitários, ralos e pias, deixe agir por 10 minutos. Para limpeza geral, aplique sobre a superfície com um pano ou borrifador.",
+    storage:
+      "Armazene em local fresco, seco e ventilado, longe do alcance de crianças e animais domésticos.",
+    precautions:
+      "Não ingerir. Não misture com outros produtos de limpeza. Evite contato com olhos e pele. Mantenha fora do alcance de crianças.",
+    ingredients:
+      "Água, Cloreto de Benzalcônio, Tensoativos, Fragrância, Corante.",
+  },
+  {
+    id: 7,
+    name: "Loção Repelente Hidratante",
+    category: "Higiene",
+    rating: 4.5,
+    ratingCount: 47,
+    stock: 26,
+    icon: "🦟",
+    image: "/images/products/locao-repelente-hidratante.jpg",
+    variantImages: {
+      "120g|Icaridina": [
+        "/images/products/variants/locao-repelente-hidratante-120g-icaridina-frente.jpg",
+        "/images/products/variants/locao-repelente-hidratante-120g-icaridina-verso.jpg",
+      ],
+    },
+    aromas: ["Icaridina"],
+    sizes: [{ id: "120g", label: "120g", price: 19.9 }],
+    howToUse:
+      "Aplique sobre a pele exposta, evitando olhos e mucosas. Reaplique conforme a necessidade, especialmente após contato com água.",
+    storage:
+      "Conserve em local fresco e seco, ao abrigo da luz solar direta.",
+    precautions:
+      "Hipoalergênico e dermatologicamente testado. Uso externo. Não aplique sobre pele lesionada. Mantenha fora do alcance de crianças.",
+    ingredients:
+      "Aqua, Icaridina, Glicerina, Dimethicone, Fenoxietanol, Fragrância.",
+  },
+  {
+    id: 8,
+    name: "Loção Repelente Spray",
+    category: "Higiene",
+    rating: 4.4,
+    ratingCount: 39,
+    stock: 26,
+    icon: "🦟",
+    image: "/images/products/locao-repelente-spray.jpg",
+    variantImages: {
+      "120ml|Citronela": [
+        "/images/products/variants/locao-repelente-spray-120ml-citronela-frente.jpg",
+        "/images/products/variants/locao-repelente-spray-120ml-citronela-verso.jpg",
+      ],
+    },
+    aromas: ["Citronela"],
+    sizes: [{ id: "120ml", label: "120ml", price: 17.9 }],
+    howToUse:
+      "Borrife sobre a pele exposta, a uma distância de 10 a 15 cm, evitando olhos e mucosas. Reaplique conforme a necessidade.",
+    storage:
+      "Conserve em local fresco e seco, ao abrigo da luz solar direta.",
+    precautions:
+      "Uso externo. Não aplique sobre pele lesionada. Evite contato com os olhos. Mantenha fora do alcance de crianças.",
+    ingredients:
+      "Aqua, Óleo de Citronela, Álcool, Fragrância, Conservante.",
+  },
+  {
+    id: 9,
+    name: "Multiuso",
+    category: "Limpeza",
+    rating: 4.5,
+    ratingCount: 82,
+    stock: 35,
+    icon: "🧽",
+    image: "/images/products/multiuso.jpg",
+    variantImages: {
+      "500ml|Algas": ["/images/products/variants/multiuso-500ml-algas.jpg"],
+      "500ml|Maçã Verde": ["/images/products/variants/multiuso-500ml-maca-verde.jpg"],
+    },
+    aromas: ["Algas", "Maçã Verde"],
+    sizes: [{ id: "500ml", label: "500ml", price: 6.9 }],
+    howToUse:
+      "Aplique diretamente sobre a superfície e limpe com um pano. Para sujeiras mais difíceis, deixe agir por alguns minutos antes de remover.",
+    storage:
+      "Mantenha em local fresco e seco, longe do alcance de crianças e animais domésticos.",
+    precautions:
+      "Não ingerir. Evite contato prolongado com a pele. Mantenha fora do alcance de crianças.",
+    ingredients:
+      "Água, Tensoativo Aniônico, Fragrância, Corante, Conservante.",
+  },
+  {
+    id: 10,
+    name: "Gel Antisséptico",
+    category: "Higiene",
+    rating: 4.8,
+    ratingCount: 165,
+    stock: 45,
+    icon: "🧴",
+    image: "/images/products/gel-antisseptico.jpg",
+    variantImages: {
+      "30ml|Maçã Verde": ["/images/products/variants/gel-antisseptico-30ml-maca-verde.jpg"],
+      "30ml|Laranja": ["/images/products/variants/gel-antisseptico-30ml-laranja.jpg"],
+      "30ml|Frutas Vermelhas": [
+        "/images/products/variants/gel-antisseptico-30ml-frutas-vermelhas.jpg",
+      ],
+    },
+    aromas: ["Maçã Verde", "Laranja", "Frutas Vermelhas"],
+    sizes: [{ id: "30ml", label: "30ml", price: 5.9 }],
+    howToUse:
+      "Aplique uma quantidade suficiente para cobrir as mãos e friccione até secar completamente, sem enxaguar. Com hidratante para mãos protegidas.",
+    storage:
+      "Mantenha em local fresco, longe de fontes de calor e chama.",
+    precautions:
+      "Inflamável. Não ingerir. Evite contato com os olhos. Mantenha fora do alcance de crianças. Não utilize próximo a chamas.",
+    ingredients:
+      "Álcool Etílico, Água, Carbômero, Trietanolamina, Glicerina, Fragrância.",
   },
 ];
 
