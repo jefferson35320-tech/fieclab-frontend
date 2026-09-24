@@ -6,6 +6,7 @@ import ProductModal from "./components/ProductModal";
 import CartSidebar from "./components/CartSidebar";
 import OrderConfirmationPopup from "./components/OrderConfirmationPopup";
 import WhatsAppButton from "./components/WhatsAppButton";
+import ThemeToggle from "./components/ThemeToggle";
 
 import products from "./data/products";
 import { createOrder } from "./data/orders";
@@ -215,6 +216,7 @@ function App() {
       />
 
       <WhatsAppButton />
+      <ThemeToggle />
     </div>
   );
 }

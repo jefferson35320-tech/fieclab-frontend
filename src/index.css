@@ -7,3 +7,58 @@
     @apply m-0 bg-page text-ink font-body;
   }
 }
+
+/* ------------------------------------------------------------------
+   Tema claro / escuro
+   Claro = valores originais do site. Escuro = classe "dark" no <html>
+   (aplicada pelo botão ThemeToggle e pelo script em public/index.html).
+------------------------------------------------------------------- */
+@layer base {
+  :root {
+    --color-page: 244 248 249;
+    --color-surface: 255 255 255;
+    --color-ink: 32 48 47;
+    --color-muted: 109 117 125;
+    --color-line: 221 231 232;
+    --color-primary-light: 224 238 241;
+  }
+
+  .dark {
+    color-scheme: dark;
+    --color-page: 13 24 27;
+    --color-surface: 22 36 40;
+    --color-ink: 226 236 238;
+    --color-muted: 155 170 176;
+    --color-line: 46 66 71;
+    --color-primary-light: 24 52 60;
+  }
+}
+
+/* textos que precisam clarear para ter contraste sobre fundo escuro */
+.dark .text-primary-dark { color: #8bd3e3; }
+.dark .text-primary { color: #4db8d1; }
+.dark .text-danger { color: #ff8f80; }
+.dark .text-success { color: #5fd39a; }
+
+/* botões translúcidos que ficam sobre as fotos continuam claros nos dois temas */
+.dark .bg-white\/85.text-primary-dark,
+.dark .bg-white\/90.text-primary-dark { color: #004f5f; }
+.dark .bg-white\/85.text-primary-dark:hover,
+.dark .bg-white\/90.text-primary-dark:hover { background-color: #e0eef1; }
+
+/* botão do carrinho no cabeçalho */
+.dark .bg-white.text-primary-dark { background-color: rgb(var(--color-surface)); }
+
+/* fundos com gradiente */
+.dark .bg-header-glow {
+  background-image:
+    radial-gradient(120% 180% at 15% 0%, rgba(229, 0, 32, 0.12) 0%, transparent 55%),
+    linear-gradient(120deg, #142428 0%, #101d20 55%, #0c1719 100%);
+}
+.dark .bg-placeholder-gradient {
+  background-image: linear-gradient(135deg, #18343c, #12292f);
+}
+
+/* botão "remover" do carrinho */
+.dark .border-\[\#f0d3ce\] { border-color: rgba(255, 143, 128, 0.35); }
+.dark .hover\:bg-\[\#fdecea\]:hover { background-color: rgba(192, 57, 43, 0.18); }

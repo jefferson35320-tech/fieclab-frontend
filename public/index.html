@@ -31,6 +31,25 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>FiecLab</title>
+    <script>
+      // aplica o tema salvo (ou o do sistema) antes de a página aparecer, evitando "piscar" branco
+      (function () {
+        try {
+          var saved = localStorage.getItem("fieclab-theme");
+          var dark = saved
+            ? saved === "dark"
+            : window.matchMedia("(prefers-color-scheme: dark)").matches;
+          if (dark) {
+            var root = document.documentElement;
+            root.classList.add("dark");
+            root.dataset.theme = "dark";
+            root.style.colorScheme = "dark";
+            var meta = document.querySelector('meta[name="theme-color"]');
+            if (meta) meta.setAttribute("content", "#0D181B");
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
