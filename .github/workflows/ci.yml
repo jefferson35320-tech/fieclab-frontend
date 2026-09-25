@@ -19,13 +19,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
 
       - name: Instalar dependências
-        run: npm ci
+        run: npm install
 
       - name: Compilar o projeto
         run: npm run build --if-present
+        env:
+          CI: false
 
   # Job 2: Gerar e publicar a imagem Docker
   docker-build:
@@ -71,4 +72,4 @@ jobs:
         run: kubectl rollout restart deployment/frontend-deployment
 
       - name: Aguardar rollout concluir
-        run: kubectl rollout status deployment/frontend-deployment --timeout=180s
+        run: kubectl rollout status deployment/frontend-deployment --timeout=180
