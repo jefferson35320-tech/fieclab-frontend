@@ -2,13 +2,15 @@ name: CI/CD Frontend & Kubernetes Deploy
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
 
 jobs:
   build-and-push:
-    runs-runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout do código
+      - name: Checkout do codigo
         uses: actions/checkout@v4
 
       - name: Login no Docker Hub
@@ -28,7 +30,7 @@ jobs:
     needs: build-and-push
     runs-on: self-hosted
     steps:
-      - name: Checkout do código
+      - name: Checkout do codigo
         uses: actions/checkout@v4
 
       - name: Aplicar manifesto no Minikube
