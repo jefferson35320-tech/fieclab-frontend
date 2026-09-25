@@ -72,4 +72,4 @@ jobs:
         run: kubectl rollout restart deployment/frontend-deployment
 
       - name: Aguardar rollout concluir
-        run: kubectl rollout status deployment/frontend-deployment --timeout=180
+        run: kubectl rollout status deployment/frontend-deployment --timeout=180s
