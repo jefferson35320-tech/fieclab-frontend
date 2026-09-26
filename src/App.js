@@ -21,11 +21,20 @@ function App() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("Todos");
   const [ratingOverrides, setRatingOverrides] = useState({});
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredProducts =
-    selectedCategory === "Todos"
-      ? products
-      : products.filter((product) => product.category === selectedCategory);
+  function normalize(text) { return (text || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase(); }
+
+  const byCategory = 
+    selectedCategory === "Todos" 
+    ? products
+    : products.filter((p)=>p.category === selectedCategory);
+
+  const filteredProducts = byCategory.filter((p) => normalize(p.name).includes(normalize(searchTerm)));
+  // const filteredProducts =
+  //  selectedCategory === "Todos"""
+  //    ? products
+  //    : products.filter((product) => product.category === selectedCategory);
 
   // atualiza a média de avaliação do produto com a nova nota do usuário
   function handleRate(productId, value) {
@@ -135,6 +144,29 @@ function App() {
         <p className="m-0 mb-8 text-[15px] text-muted">
           Escolha o tamanho e o aroma antes de adicionar ao carrinho.
         </p>
+
+        <div className="relative mb-7 max-w-md">
+          <Search
+            className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted"
+            strokeWidth={2}
+          />
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Buscar produto..."
+            className="w-full rounded-full border border-line bg-white py-2.5 pl-10 pr-10 font-body text-[14px] text-primary-dark outline-none transition focus:border-primary"
+          />
+          {searchTerm && (
+            <button
+              type="button"
+              onClick={() => setSearchTerm("")}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted transition hover:text-primary-dark"
+            >
+              <X className="h-4 w-4" strokeWidth={2} />
+            </button>
+          )}
+        </div>
 
         <div
           className="mb-7 flex flex-wrap gap-2.5"
