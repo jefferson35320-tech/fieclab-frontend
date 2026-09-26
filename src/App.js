@@ -32,7 +32,7 @@ function App() {
 
   const filteredProducts = byCategory.filter((p) => normalize(p.name).includes(normalize(searchTerm)));
   // const filteredProducts =
-  //  selectedCategory === "Todos"
+  //  selectedCategory === "Todos"""
   //    ? products
   //    : products.filter((product) => product.category === selectedCategory);
 
