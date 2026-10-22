@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
 
 import Header from "./components/Header";
 import ProductCard from "./components/ProductCard";
@@ -7,11 +8,20 @@ import CartSidebar from "./components/CartSidebar";
 import OrderConfirmationPopup from "./components/OrderConfirmationPopup";
 import WhatsAppButton from "./components/WhatsAppButton";
 import ThemeToggle from "./components/ThemeToggle";
+import AdminLoginModal from "./components/AdminLoginModal";
+import AdminPanel from "./components/AdminPanel";
+import { auth } from "./firebase.config";
 
 import products from "./data/products";
 import { createOrder } from "./data/orders";
+import { fetchStock, updateStock } from "./services/stockService";
 
 const CATEGORIES = ["Higiene", "Limpeza", "Cama, Mesa e Banho"];
+
+// categorias disponíveis no painel admin (inclui as já usadas pelos produtos)
+const ADMIN_CATEGORIES = [
+  ...new Set([...CATEGORIES, ...products.map((product) => product.category)]),
+];
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -21,11 +31,65 @@ function App() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("Todos");
   const [ratingOverrides, setRatingOverrides] = useState({});
+  const [adminUser, setAdminUser] = useState(null);
+  const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
+  const [isAdminPanelOpen, setIsAdminPanelOpen] = useState(false);
+  // lista de produtos em estado: permite que o admin edite o catálogo
+  // (por enquanto só em memória — volta ao original ao recarregar a página)
+  const [productList, setProductList] = useState(products);
+
+  // mantém o estado de login do admin sincronizado com o Firebase
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => setAdminUser(user));
+    return unsubscribe;
+  }, []);
+
+  // ao sair da conta admin, fecha o painel
+  useEffect(() => {
+    if (!adminUser) setIsAdminPanelOpen(false);
+  }, [adminUser]);
+
+  // carrega o estoque pelo serviço (ponto de integração com o backend)
+  useEffect(() => {
+    let cancelled = false;
+
+    fetchStock(products)
+      .then((stockMap) => {
+        if (cancelled) return;
+        setProductList((prev) =>
+          prev.map((product) =>
+            stockMap[product.id] !== undefined
+              ? { ...product, stock: stockMap[product.id] }
+              : product
+          )
+        );
+      })
+      .catch((err) => console.error("Não foi possível carregar o estoque:", err));
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // atualiza campos de um produto (tudo, exceto estoque, vive só no front por enquanto)
+  function handleSaveProduct(productId, fields) {
+    setProductList((prev) =>
+      prev.map((product) =>
+        product.id === productId ? { ...product, ...fields } : product
+      )
+    );
+  }
+
+  // grava o estoque via serviço; só atualiza a tela se o "backend" aceitar
+  async function handleSaveStock(productId, stock) {
+    await updateStock(productId, stock);
+    handleSaveProduct(productId, { stock });
+  }
 
   const filteredProducts =
     selectedCategory === "Todos"
-      ? products
-      : products.filter((product) => product.category === selectedCategory);
+      ? productList
+      : productList.filter((product) => product.category === selectedCategory);
 
   // atualiza a média de avaliação do produto com a nova nota do usuário
   function handleRate(productId, value) {
@@ -126,7 +190,13 @@ function App() {
 
   return (
     <div>
-      <Header cartCount={cart.length} toggleCart={toggleCart} />
+      <Header
+        cartCount={cart.length}
+        toggleCart={toggleCart}
+        adminUser={adminUser}
+        onAdminClick={() => setIsAdminModalOpen(true)}
+        onPanelClick={() => setIsAdminPanelOpen(true)}
+      />
 
       <div className="mx-auto max-w-[1240px] px-5 pb-20 pt-10 sm:px-14">
         <h1 className="m-0 mb-1.5 font-display text-2xl font-bold text-primary-dark sm:text-[32px]">
@@ -214,6 +284,24 @@ function App() {
         order={order}
         startNewOrder={startNewOrder}
       />
+
+      {isAdminModalOpen && (
+        <AdminLoginModal
+          adminUser={adminUser}
+          onClose={() => setIsAdminModalOpen(false)}
+        />
+      )}
+
+      {adminUser && (
+        <AdminPanel
+          isOpen={isAdminPanelOpen}
+          onClose={() => setIsAdminPanelOpen(false)}
+          products={productList}
+          categories={ADMIN_CATEGORIES}
+          onSaveProduct={handleSaveProduct}
+          onSaveStock={handleSaveStock}
+        />
+      )}
 
       <WhatsAppButton />
       <ThemeToggle />

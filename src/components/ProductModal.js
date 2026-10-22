@@ -23,7 +23,7 @@ function ProductModal({ product, onClose, addToCart, ratingOverride, onRate }) {
   const [notifyError, setNotifyError] = useState("");
 
   const selectedSize = product.sizes.find((s) => s.id === selectedSizeId);
-  const outOfStock = product.stock === 0;
+  const outOfStock = product.stock <= 0;
 
   // Fotos da variação (tamanho + aroma) escolhida - pode ter frente e verso.
   // Se não houver fotos específicas para essa combinação, cai pra foto padrão do produto.

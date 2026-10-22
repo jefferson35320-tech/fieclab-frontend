@@ -7,6 +7,8 @@ import {
   Pill,
   Dna,
   ShoppingCart,
+  UserCog,
+  LayoutDashboard,
 } from "lucide-react";
 import Logo from "./Logo";
 
@@ -31,7 +33,7 @@ const FLOATING_ICONS = [
   { Icon: FlaskConical, top: "8%", left: "56%", size: "h-7 w-7", duration: "6.6s", delay: "2s", opacity: "opacity-25", color: "text-star" },
 ];
 
-function Header({ cartCount, toggleCart }) {
+function Header({ cartCount, toggleCart, adminUser, onAdminClick, onPanelClick }) {
   return (
     <div className="sticky top-0 z-20 flex items-center justify-between overflow-hidden bg-header-glow px-5 py-2.5 shadow-brand-md relative sm:px-14">
       {/* Camada de ícones de química flutuando ao fundo */}
@@ -55,18 +57,48 @@ function Header({ cartCount, toggleCart }) {
         <Logo />
       </div>
 
-      <button
-        type="button"
-        className="group relative z-10 flex cursor-pointer items-center gap-3 rounded-full border border-line bg-white pl-4 pr-2 py-2 font-body text-[15px] font-bold text-primary-dark shadow-[0_6px_20px_rgba(0,0,0,0.12)] transition hover:-translate-y-0.5 hover:shadow-[0_10px_26px_rgba(0,0,0,0.18)]"
-        onClick={toggleCart}
-        aria-label={`Abrir carrinho, ${cartCount} ${cartCount === 1 ? "item" : "itens"}`}
-      >
-        <ShoppingCart className="h-5 w-5 transition group-hover:scale-110" strokeWidth={2} />
-        <span className="hidden sm:inline">Carrinho</span>
-        <span className="flex h-7 min-w-7 animate-pulseRing items-center justify-center rounded-full bg-accent px-1.5 text-[13px] font-bold text-white">
-          {cartCount}
-        </span>
-      </button>
+      <div className="relative z-10 flex items-center gap-2.5 sm:gap-3">
+        {adminUser && (
+          <button
+            type="button"
+            className="group flex cursor-pointer items-center gap-2 rounded-full border border-line bg-white px-3.5 py-2 font-body text-[15px] font-bold text-primary-dark shadow-[0_6px_20px_rgba(0,0,0,0.12)] transition hover:-translate-y-0.5 hover:shadow-[0_10px_26px_rgba(0,0,0,0.18)]"
+            onClick={onPanelClick}
+            aria-label="Abrir painel do administrador"
+          >
+            <LayoutDashboard className="h-5 w-5 transition group-hover:scale-110" strokeWidth={2} />
+            <span className="hidden sm:inline">Painel</span>
+          </button>
+        )}
+
+        <button
+          type="button"
+          className="group flex cursor-pointer items-center gap-2 rounded-full border border-line bg-white px-3.5 py-2 font-body text-[15px] font-bold text-primary-dark shadow-[0_6px_20px_rgba(0,0,0,0.12)] transition hover:-translate-y-0.5 hover:shadow-[0_10px_26px_rgba(0,0,0,0.18)]"
+          onClick={onAdminClick}
+          aria-label={adminUser ? "Conta do administrador" : "Login de administrador"}
+          title={adminUser ? adminUser.email : "Login de administrador"}
+        >
+          <span className="relative">
+            <UserCog className="h-5 w-5 transition group-hover:scale-110" strokeWidth={2} />
+            {adminUser && (
+              <span className="absolute -right-1 -top-1 h-2.5 w-2.5 rounded-full border-2 border-white bg-success" />
+            )}
+          </span>
+          <span className="hidden sm:inline">{adminUser ? "Admin" : "Entrar"}</span>
+        </button>
+
+        <button
+          type="button"
+          className="group relative flex cursor-pointer items-center gap-3 rounded-full border border-line bg-white pl-4 pr-2 py-2 font-body text-[15px] font-bold text-primary-dark shadow-[0_6px_20px_rgba(0,0,0,0.12)] transition hover:-translate-y-0.5 hover:shadow-[0_10px_26px_rgba(0,0,0,0.18)]"
+          onClick={toggleCart}
+          aria-label={`Abrir carrinho, ${cartCount} ${cartCount === 1 ? "item" : "itens"}`}
+        >
+          <ShoppingCart className="h-5 w-5 transition group-hover:scale-110" strokeWidth={2} />
+          <span className="hidden sm:inline">Carrinho</span>
+          <span className="flex h-7 min-w-7 animate-pulseRing items-center justify-center rounded-full bg-accent px-1.5 text-[13px] font-bold text-white">
+            {cartCount}
+          </span>
+        </button>
+      </div>
     </div>
   );
 }
