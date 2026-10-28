@@ -8,9 +8,14 @@ import CartSidebar from "./components/CartSidebar";
 import OrderConfirmationPopup from "./components/OrderConfirmationPopup";
 import WhatsAppButton from "./components/WhatsAppButton";
 import ThemeToggle from "./components/ThemeToggle";
+
 import AdminLoginModal from "./components/AdminLoginModal";
 import AdminPanel from "./components/AdminPanel";
 import { auth } from "./firebase.config";
+
+import SplashScreen from "./components/SplashScreen";
+import WelcomeScreen from "./components/WelcomeScreen";
+
 
 import products from "./data/products";
 import { createOrder } from "./data/orders";
@@ -24,6 +29,7 @@ const ADMIN_CATEGORIES = [
 ];
 
 function App() {
+  const [stage, setStage] = useState("splash");
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [order, setOrder] = useState(null);
@@ -187,6 +193,15 @@ function App() {
     setIsCartOpen(false);
     setIsConfirmationPopupOpen(false);
   }
+
+  if (stage === "splash") {
+    return <SplashScreen onFinish={() => setStage("welcome")} />;
+  }
+
+  if (stage === "welcome") {
+    return <WelcomeScreen onContinue={() => setStage("catalog")} />;
+  }
+
 
   return (
     <div>
