@@ -98,6 +98,13 @@ function App() {
       ? productList
       : productList.filter((product) => product.category === selectedCategory);
 
+  const byCategory = 
+    selectedCategory === "Todos" 
+    ? products
+    : products.filter((p)=>p.category === selectedCategory);
+
+  const filteredProducts = byCategory.filter((p) => normalize(p.name).includes(normalize(searchTerm)));
+  //Adicao para funcionar
   // atualiza a média de avaliação do produto com a nova nota do usuário
   function handleRate(productId, value) {
     setRatingOverrides((prev) => {
