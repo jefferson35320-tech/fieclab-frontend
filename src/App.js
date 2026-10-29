@@ -93,10 +93,6 @@ function App() {
     handleSaveProduct(productId, { stock });
   }
 
-  const filteredProducts =
-    selectedCategory === "Todos"
-      ? productList
-      : productList.filter((product) => product.category === selectedCategory);
 
   const byCategory = 
     selectedCategory === "Todos" 
