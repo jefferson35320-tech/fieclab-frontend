@@ -3,7 +3,7 @@ import StarRating from "./StarRating";
 function ProductCard({ product, onOpen, ratingOverride }) {
   const displayRating = ratingOverride ? ratingOverride.rating : product.rating;
   const displayCount = ratingOverride ? ratingOverride.count : product.ratingCount;
-  const outOfStock = product.stock <= 0;
+  const outOfStock = product.stock === 0;
 
   return (
     <button
