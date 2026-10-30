@@ -41,6 +41,7 @@ function App() {
   const [adminUser, setAdminUser] = useState(null);
   const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
   const [isAdminPanelOpen, setIsAdminPanelOpen] = useState(false);
+   const [searchTerm, setSearchTerm] = useState("");
   // lista de produtos em estado: permite que o admin edite o catálogo
   // (por enquanto só em memória — volta ao original ao recarregar a página)
   const [productList, setProductList] = useState(products);
@@ -93,8 +94,12 @@ function App() {
     handleSaveProduct(productId, { stock });
   }
 
+  const filteredProducts =
+    selectedCategory === "Todos"
+      ? productList
+      : productList.filter((product) => product.category === selectedCategory);
 
-  const filteredProducts = byCategory.filter((p) => normalize(p.name).includes(normalize(searchTerm)));
+
   //Adicao para funcionar
   // atualiza a média de avaliação do produto com a nova nota do usuário
   function handleRate(productId, value) {
