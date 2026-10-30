@@ -93,15 +93,6 @@ function App() {
     handleSaveProduct(productId, { stock });
   }
 
-  const filteredProducts =
-    selectedCategory === "Todos"
-      ? productList
-      : productList.filter((product) => product.category === selectedCategory);
-
-  const byCategory = 
-    selectedCategory === "Todos" 
-    ? products
-    : products.filter((p)=>p.category === selectedCategory);
 
   const filteredProducts = byCategory.filter((p) => normalize(p.name).includes(normalize(searchTerm)));
   //Adicao para funcionar
