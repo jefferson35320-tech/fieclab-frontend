@@ -61,6 +61,10 @@ module.exports = {
           "0%, 100%": { boxShadow: "0 0 0 0 rgba(229,0,32,0.45)" },
           "50%": { boxShadow: "0 0 0 6px rgba(229,0,32,0)" },
         },
+        splashIn: {
+          from: { opacity: "0", transform: "translateY(12px) scale(0.94)" },
+          to: { opacity: "1", transform: "translateY(0) scale(1)" },
+        },
         drift: {
           "0%, 100%": { transform: "translate(0, 0) rotate(0deg)" },
           "25%": { transform: "translate(6px, -10px) rotate(6deg)" },
@@ -73,6 +77,7 @@ module.exports = {
         slideUp: "slideUp 0.25s ease",
         pulseRing: "pulseRing 2.2s ease-in-out infinite",
         drift: "drift 7s ease-in-out infinite",
+        splashIn: "splashIn 0.7s ease both",
       },
     },
   },
