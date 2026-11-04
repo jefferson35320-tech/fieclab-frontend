@@ -1,6 +1,6 @@
 import {Route, BrowserRouter as Router, Routes} from "react-router-dom"
 import { HomePage } from "./pages/home/HomePage";
-import CreateProductPage from "./pages/create-product/CreateProductPage";
+import {CreateProductPage} from "./pages/create-product/CreateProductPage";
 import ProductDetailPage from "./pages/product-datail/ProductDetailPage";
 import { OAuthRedirectPage } from "./OAuthRedirectPage";
 
