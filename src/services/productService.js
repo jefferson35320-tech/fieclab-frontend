@@ -2,7 +2,6 @@ import api from "../config/api";
 
 const BASE_URL = "/api/products";
 
-import api from './api';
 
 export const productService = {
   /**

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { productService, authService } from './services';
+import { productService } from '../../services/productService';
+import { authService } from '../../services/auth-service';
 
-export function ProductList() {
+export function HomePage() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function loadProducts() {
+  async function loadProducts() {
       try {
         const data = await productService.findAll({ page: 0, size: 10 });
         setProducts(data.content || []);
@@ -17,9 +17,11 @@ export function ProductList() {
       }
     }
 
-    if (authService.isAuthenticated()) {
-      loadProducts();
-    }
+  useEffect(() => {
+
+    //if (authService.isAuthenticated()) {
+      loadProducts().then().catch();
+    //}
   }, []);
 
   if (loading) return <p>Carregando produtos...</p>;
