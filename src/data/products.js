@@ -9,34 +9,34 @@ const products = [
     ratingCount: 184,
     stock: 0,
     icon: "🧼",
-    image: "/images/products/sabonete-liquido.jpg",
+    image: `${process.env.PUBLIC_URL}/images/products/sabonete-liquido.jpg`,
     variantImages: {
       "320ml|Alfazema": [
-        "/images/products/variants/sabonete-liquido-320ml-alfazema.jpg",
-        "/images/products/variants/sabonete-liquido-320ml-alfazema-verso.jpg",
+        `${process.env.PUBLIC_URL}/images/products/variants/sabonete-liquido-320ml-alfazema.jpg`,
+        `${process.env.PUBLIC_URL}/images/products/variants/sabonete-liquido-320ml-alfazema-verso.jpg`,
       ],
       "320ml|Capim-limão": [
-        "/images/products/variants/sabonete-liquido-320ml-capim-limao.jpg",
-        "/images/products/variants/sabonete-liquido-320ml-capim-limao-verso.jpg",
+        `${process.env.PUBLIC_URL}/images/products/variants/sabonete-liquido-320ml-capim-limao.jpg`,
+        `${process.env.PUBLIC_URL}/images/products/variants/sabonete-liquido-320ml-capim-limao-verso.jpg`,
       ],
       "320ml|Frutas Vermelhas": [
-        "/images/products/variants/sabonete-liquido-320ml-frutas-vermelhas.jpg",
-        "/images/products/variants/sabonete-liquido-320ml-frutas-vermelhas-verso.jpg",
+        `${process.env.PUBLIC_URL}/images/products/variants/sabonete-liquido-320ml-frutas-vermelhas.jpg`,
+        `${process.env.PUBLIC_URL}/images/products/variants/sabonete-liquido-320ml-frutas-vermelhas-verso.jpg`,
       ],
       "320ml|Mirra": [
-        "/images/products/variants/sabonete-liquido-320ml-mirra.jpg",
-        "/images/products/variants/sabonete-liquido-320ml-mirra-verso.jpg",
+        `${process.env.PUBLIC_URL}/images/products/variants/sabonete-liquido-320ml-mirra.jpg`,
+        `${process.env.PUBLIC_URL}/images/products/variants/sabonete-liquido-320ml-mirra-verso.jpg`,
       ],
       "320ml|Tutti-frutti": [
-        "/images/products/variants/sabonete-liquido-320ml-tutti-frutti.jpg",
+        `${process.env.PUBLIC_URL}/images/products/variants/sabonete-liquido-320ml-tutti-frutti.jpg`,
       ],
       "2L|Alfazema": [
-        "/images/products/variants/sabonete-liquido-2L-alfazema.jpg",
+        `${process.env.PUBLIC_URL}/images/products/variants/sabonete-liquido-2L-alfazema.jpg`,
       ],
       "2L|Erva-doce": [
-        "/images/products/variants/sabonete-liquido-2L-erva-doce.jpg",
+        `${process.env.PUBLIC_URL}/images/products/variants/sabonete-liquido-2L-erva-doce.jpg`,
       ],
-      "2L|Mirra": ["/images/products/variants/sabonete-liquido-2L-mirra.jpg"],
+      "2L|Mirra": [`${process.env.PUBLIC_URL}/images/products/variants/sabonete-liquido-2L-mirra.jpg`],
     },
     aromas: [
       "Alfazema",
@@ -67,15 +67,15 @@ const products = [
     ratingCount: 121,
     stock: 50,
     icon: "🧴",
-    image: "/images/products/detergente.jpg",
+    image: `${process.env.PUBLIC_URL}/images/products/detergente.jpg`,
     variantImages: {
-      "500ml|Coco": ["/images/products/variants/detergente-500ml-coco.jpg"],
+      "500ml|Coco": [`${process.env.PUBLIC_URL}/images/products/variants/detergente-500ml-coco.jpg`],
       "500ml|Laranja": [
-        "/images/products/variants/detergente-500ml-laranja.jpg",
+        `${process.env.PUBLIC_URL}/images/products/variants/detergente-500ml-laranja.jpg`,
       ],
-      "500ml|Limão": ["/images/products/variants/detergente-500ml-limao.jpg"],
-      "500ml|Neutro": ["/images/products/variants/detergente-500ml-neutro.jpg"],
-      "5L|Laranja": ["/images/products/variants/detergente-5L-laranja.jpg"],
+      "500ml|Limão": [`${process.env.PUBLIC_URL}/images/products/variants/detergente-500ml-limao.jpg`],
+      "500ml|Neutro": [`${process.env.PUBLIC_URL}/images/products/variants/detergente-500ml-neutro.jpg`],
+      "5L|Laranja": [`${process.env.PUBLIC_URL}/images/products/variants/detergente-5L-laranja.jpg`],
     },
     aromas: ["Neutro", "Coco", "Laranja", "Limão"],
     sizes: [
@@ -99,14 +99,14 @@ const products = [
     ratingCount: 58,
     stock: 20,
     icon: "💦",
-    image: "/images/products/agua-para-lencois.jpg",
+    image: `${process.env.PUBLIC_URL}/images/products/agua-para-lencois.jpg`,
     variantImages: {
       "500ml|Bambo": [
-        "/images/products/variants/agua-para-lencois-500ml-bambo.jpg",
-        "/images/products/variants/agua-para-lencois-500ml-bambo-verso.jpg",
+        `${process.env.PUBLIC_URL}/images/products/variants/agua-para-lencois-500ml-bambo.jpg`,
+        `${process.env.PUBLIC_URL}/images/products/variants/agua-para-lencois-500ml-bambo-verso.jpg`,
       ],
       "500ml|Garden": [
-        "/images/products/variants/agua-para-lencois-500ml-garden.jpg",
+        `${process.env.PUBLIC_URL}/images/products/variants/agua-para-lencois-500ml-garden.jpg`,
       ],
     },
     aromas: ["Bambo", "Garden"],
@@ -127,7 +127,7 @@ const products = [
     ratingCount: 96,
     stock: 15,
     icon: "🧺",
-    image: "/images/products/amaciante-de-roupas.jpg",
+    image: `${process.env.PUBLIC_URL}/images/products/amaciante-de-roupas.jpg`,
     aromas: [],
     sizes: [{ id: "5L", label: "5L", price: 39.9 }],
     howToUse:
@@ -147,7 +147,7 @@ const products = [
     ratingCount: 73,
     stock: 22,
     icon: "🧴",
-    image: "/images/products/creme-para-massagem.jpg",
+    image: `${process.env.PUBLIC_URL}/images/products/creme-para-massagem.jpg`,
     aromas: ["Arnica"],
     sizes: [{ id: "120g", label: "120g", price: 15.9 }],
     howToUse:
@@ -167,7 +167,7 @@ const products = [
     ratingCount: 110,
     stock: 18,
     icon: "🧽",
-    image: "/images/products/desinfetante-e-limpador.jpg",
+    image: `${process.env.PUBLIC_URL}/images/products/desinfetante-e-limpador.jpg`,
     aromas: ["Lavanda"],
     sizes: [{ id: "5L", label: "5L", price: 34.9 }],
     howToUse:
@@ -187,11 +187,11 @@ const products = [
     ratingCount: 47,
     stock: 26,
     icon: "🦟",
-    image: "/images/products/locao-repelente-hidratante.jpg",
+    image: `${process.env.PUBLIC_URL}/images/products/locao-repelente-hidratante.jpg`,
     variantImages: {
       "120g|Icaridina": [
-        "/images/products/variants/locao-repelente-hidratante-120g-icaridina-frente.jpg",
-        "/images/products/variants/locao-repelente-hidratante-120g-icaridina-verso.jpg",
+        `${process.env.PUBLIC_URL}/images/products/variants/locao-repelente-hidratante-120g-icaridina-frente.jpg`,
+        `${process.env.PUBLIC_URL}/images/products/variants/locao-repelente-hidratante-120g-icaridina-verso.jpg`,
       ],
     },
     aromas: ["Icaridina"],
@@ -212,11 +212,11 @@ const products = [
     ratingCount: 39,
     stock: 26,
     icon: "🦟",
-    image: "/images/products/locao-repelente-spray.jpg",
+    image: `${process.env.PUBLIC_URL}/images/products/locao-repelente-spray.jpg`,
     variantImages: {
       "120ml|Citronela": [
-        "/images/products/variants/locao-repelente-spray-120ml-citronela-frente.jpg",
-        "/images/products/variants/locao-repelente-spray-120ml-citronela-verso.jpg",
+        `${process.env.PUBLIC_URL}/images/products/variants/locao-repelente-spray-120ml-citronela-frente.jpg`,
+        `${process.env.PUBLIC_URL}/images/products/variants/locao-repelente-spray-120ml-citronela-verso.jpg`,
       ],
     },
     aromas: ["Citronela"],
@@ -236,11 +236,11 @@ const products = [
     ratingCount: 82,
     stock: 35,
     icon: "🧽",
-    image: "/images/products/multiuso.jpg",
+    image: `${process.env.PUBLIC_URL}/images/products/multiuso.jpg`,
     variantImages: {
-      "500ml|Algas": ["/images/products/variants/multiuso-500ml-algas.jpg"],
+      "500ml|Algas": [`${process.env.PUBLIC_URL}/images/products/variants/multiuso-500ml-algas.jpg`],
       "500ml|Maçã Verde": [
-        "/images/products/variants/multiuso-500ml-maca-verde.jpg",
+        `${process.env.PUBLIC_URL}/images/products/variants/multiuso-500ml-maca-verde.jpg`,
       ],
     },
     aromas: ["Algas", "Maçã Verde"],
@@ -261,16 +261,16 @@ const products = [
     ratingCount: 165,
     stock: 45,
     icon: "🧴",
-    image: "/images/products/gel-antisseptico.jpg",
+    image: `${process.env.PUBLIC_URL}/images/products/gel-antisseptico.jpg`,
     variantImages: {
       "30ml|Maçã Verde": [
-        "/images/products/variants/gel-antisseptico-30ml-maca-verde.jpg",
+        `${process.env.PUBLIC_URL}/images/products/variants/gel-antisseptico-30ml-maca-verde.jpg`,
       ],
       "30ml|Laranja": [
-        "/images/products/variants/gel-antisseptico-30ml-laranja.jpg",
+        `${process.env.PUBLIC_URL}/images/products/variants/gel-antisseptico-30ml-laranja.jpg`,
       ],
       "30ml|Frutas Vermelhas": [
-        "/images/products/variants/gel-antisseptico-30ml-frutas-vermelhas.jpg",
+        `${process.env.PUBLIC_URL}/images/products/variants/gel-antisseptico-30ml-frutas-vermelhas.jpg`,
       ],
     },
     aromas: ["Maçã Verde", "Laranja", "Frutas Vermelhas"],

@@ -33,6 +33,8 @@ jobs:
             REACT_APP_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
             REACT_APP_FIREBASE_APP_ID=${{ secrets.FIREBASE_APP_ID }}
             REACT_APP_FIREBASE_MEASUREMENT_ID=${{ secrets.FIREBASE_MEASUREMENT_ID }}
+            PUBLIC_URL=/fieclab
+            REACT_APP_API_URL=https://o3l1ibqnmb.execute-api.us-east-1.amazonaws.com/fieclab
 
   deploy-k8s:
     needs: build-and-push

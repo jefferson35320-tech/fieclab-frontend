@@ -3,10 +3,13 @@
    abrindo mesmo sem internet. */
 
 // ao mudar arquivos do site, troque o número da versão (v2, v3...) para limpar o cache antigo
-const CACHE_NAME = "fieclab-v1";
+const CACHE_NAME = "fieclab-v2";
+
+// caminhos relativos ao sw.js: funcionam na raiz e sob um prefixo (/fieclab)
+const INDEX_URL = new URL("index.html", self.registration.scope).href;
 
 // arquivos guardados já na instalação
-const PRECACHE_URLS = ["/", "/index.html", "/logo-fieclab.png"];
+const PRECACHE_URLS = ["./", "./index.html", "./logo-fieclab.png"];
 
 function saveInCache(request, response) {
   return caches.open(CACHE_NAME).then((cache) => cache.put(request, response));
@@ -51,10 +54,10 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(
       fetch(request)
         .then((response) => {
-          saveInCache("/index.html", response.clone());
+          saveInCache(INDEX_URL, response.clone());
           return response;
         })
-        .catch(() => caches.match("/index.html"))
+        .catch(() => caches.match(INDEX_URL))
     );
     return;
   }
