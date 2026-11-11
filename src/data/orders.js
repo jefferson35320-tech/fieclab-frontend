@@ -11,7 +11,7 @@ function generateOrderCode() {
   }
   return `FL-${code}`;
 }
-
+//a
 function readOrders() {
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
