@@ -57,5 +57,30 @@ export const productService = {
   async searchDynamic(filters = {}) {
     const response = await api.get('/api/products/search', { params: filters });
     return response.data;
-  }
+  },
+
+  /**
+   * Envia a foto do produto (multipart, campo "file")
+   * @param {string} id - id do produto
+   * @param {File} file - arquivo de imagem
+   */
+  async uploadImage(id, file) {
+    const body = new FormData();
+    body.append('file', file);
+    const response = await api.post(`/api/products/${id}/image`, body, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return response.data;
+  },
+
+  // nomes usados pela ProductDetailPage
+  getProductById(id) {
+    return productService.findById(id);
+  },
+  updateProduct(id, productData) {
+    return productService.update(id, productData);
+  },
+  deleteProduct(id) {
+    return productService.delete(id);
+  },
 };
