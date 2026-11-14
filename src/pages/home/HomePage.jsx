@@ -271,7 +271,7 @@ export function HomePage() {
         onAdminClick={() =>
           adminUser ? setIsAdminModalOpen(true) : navigate("/login")
         }
-        onPanelClick={() => setIsAdminPanelOpen(true)}
+        onPanelClick={() => navigate("/admin")}
       />
 
       <div className="mx-auto max-w-[1240px] px-5 pb-20 pt-10 sm:px-14">
