@@ -271,7 +271,7 @@ export function HomePage() {
         onAdminClick={() =>
           adminUser ? setIsAdminModalOpen(true) : navigate("/login")
         }
-        onPanelClick={() => setIsAdminPanelOpen(true)}
+        onPanelClick={() => navigate("/admin")}
       />
 
       <div className="mx-auto max-w-[1240px] px-5 pb-20 pt-10 sm:px-14">
@@ -391,9 +391,10 @@ export function HomePage() {
 
       {isAdminModalOpen && (
         <AdminLoginModal
-          adminUser={adminUser}
-          onClose={() => setIsAdminModalOpen(false)}
-        />
+        adminUser={adminUser}
+        onClose={() => setIsAdminModalOpen(false)}
+        onLoginSuccess={() => navigate("/admin")}
+      />
       )}
 
       {adminUser && (

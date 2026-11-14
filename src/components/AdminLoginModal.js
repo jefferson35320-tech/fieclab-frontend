@@ -42,6 +42,7 @@ function AdminLoginModal({ adminUser, onClose }) {
       await signInWithEmailAndPassword(auth, email.trim(), password);
       setPassword("");
       onClose();
+      navigate("/admin");
     } catch (err) {
       setError(friendlyError(err.code));
     } finally {
