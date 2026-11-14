@@ -27,7 +27,7 @@ export default api;
 
 
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8080',
+  baseURL: process.env.REACT_APP_API_URL || 'https://l7qnejkr6i.execute-api.us-east-1.amazonaws.com/fieclab',
   headers: {
     'Content-Type': 'application/json',
   },

@@ -242,8 +242,13 @@ function ProductModal({ product, onClose, addToCart, ratingOverride, onRate }) {
           ) : (
             <div className="mb-3.5 text-sm font-semibold text-success">
               <span>
-                ✅ Em estoque ({product.stock}{" "}
-                {product.stock === 1 ? "unidade" : "unidades"} disponíveis)
+                ✅ Em estoque
+                {product.stockKnown !== false && (
+                  <>
+                    {" "}({product.stock}{" "}
+                    {product.stock === 1 ? "unidade" : "unidades"} disponíveis)
+                  </>
+                )}
               </span>
             </div>
           )}
@@ -326,6 +331,16 @@ function ProductModal({ product, onClose, addToCart, ratingOverride, onRate }) {
             )}
           </div>
 
+          {product.description && (
+            <p className="m-0 mb-4 text-sm leading-relaxed text-ink">
+              {product.description}
+            </p>
+          )}
+
+          {(product.howToUse ||
+            product.storage ||
+            product.precautions ||
+            product.ingredients) && (
           <button
             type="button"
             className="mt-3 w-full rounded-full border-none bg-primary-light px-4 py-[11px] font-body text-sm font-semibold text-primary-dark transition hover:bg-line"
@@ -334,6 +349,7 @@ function ProductModal({ product, onClose, addToCart, ratingOverride, onRate }) {
           >
             {showInfo ? "Ocultar informações do produto" : "Informações do produto"}
           </button>
+          )}
 
           {showInfo && (
             <div className="mt-[18px] flex flex-col gap-3.5 border-t border-line pt-[18px]">
