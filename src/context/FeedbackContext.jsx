@@ -12,10 +12,10 @@ import FeedbackOverlay from "../shared/components/FeedbackOverlay";
 
 const FeedbackContext = createContext(null);
 
-const SUCCESS_TIME = 1800; // ms que a animação de sucesso fica na tela
-const ERROR_TIME = 4000; // ms que a animação de erro fica na tela
+const SUCCESS_TIME = 1800; // ms que o modal de sucesso fica visível
+const ERROR_TIME = 4000; // ms que o modal de erro fica visível
 
-// mensagem padrão de sucesso para cada tipo de chamada (GET não mostra sucesso)
+// Mensagens padrão para operações de escrita (GET não exibe modal de sucesso)
 const DEFAULT_SUCCESS = {
   post: "Cadastrado com sucesso!",
   put: "Salvo com sucesso!",
@@ -40,7 +40,7 @@ export function getErrorMessage(error) {
 
 export function FeedbackProvider({ children }) {
   const [feedback, setFeedback] = useState(null); // { type, message } ou null
-  const pending = useRef(0); // quantas chamadas ainda estão em andamento
+  const pendingLoading = useRef(0); // controla apenas requisições que abriram o loading
   const timer = useRef(null);
 
   const hideFeedback = useCallback(() => {
@@ -52,7 +52,6 @@ export function FeedbackProvider({ children }) {
     clearTimeout(timer.current);
     setFeedback({ type, message });
 
-    // sucesso e erro somem sozinhos; o "carregando" fica até a chamada terminar
     if (type === "success") {
       timer.current = setTimeout(() => setFeedback(null), SUCCESS_TIME);
     }
@@ -61,33 +60,64 @@ export function FeedbackProvider({ children }) {
     }
   }, []);
 
-  // liga os interceptors do axios: toda chamada à API passa por aqui
+  // Conecta os interceptors do axios: chamadas à API passam por aqui
   useEffect(() => {
-    const requestId = api.interceptors.request.use((config) => {
-      pending.current += 1;
-      showFeedback("loading", "Carregando...");
-      return config;
-    });
+    const shouldShowLoading = (config = {}) => {
+      if (config.silent) return false;
+      const method = (config.method || "get").toLowerCase();
+      // Por padrão exibe loading apenas em escrita; GET pode forçar via { showLoading: true }
+      return method !== "get" || Boolean(config.showLoading);
+    };
+
+    const requestId = api.interceptors.request.use(
+      (config) => {
+        if (shouldShowLoading(config)) {
+          pendingLoading.current += 1;
+          showFeedback("loading", config.loadingMessage || "Carregando...");
+        }
+        return config;
+      },
+      (error) => Promise.reject(error)
+    );
 
     const responseId = api.interceptors.response.use(
       (response) => {
-        pending.current = Math.max(0, pending.current - 1);
-        const method = response.config.method;
+        const config = response.config || {};
+        const method = (config.method || "get").toLowerCase();
+
+        if (shouldShowLoading(config)) {
+          pendingLoading.current = Math.max(0, pendingLoading.current - 1);
+        }
+
+        if (config.silent) {
+          return response;
+        }
 
         if (method !== "get") {
-          // a mensagem pode ser trocada na chamada: api.put(url, dados, { successMessage: "..." })
+          // Mensagem pode ser customizada na chamada: api.put(url, dados, { successMessage: "..." })
           showFeedback(
             "success",
-            response.config.successMessage || DEFAULT_SUCCESS[method]
+            config.successMessage || DEFAULT_SUCCESS[method] || "Operação concluída!"
           );
-        } else if (pending.current === 0) {
+        } else if (pendingLoading.current === 0) {
           hideFeedback();
         }
+
         return response;
       },
       (error) => {
-        pending.current = Math.max(0, pending.current - 1);
-        showFeedback("error", error.config?.errorMessage || getErrorMessage(error));
+        const config = error.config || {};
+
+        if (shouldShowLoading(config)) {
+          pendingLoading.current = Math.max(0, pendingLoading.current - 1);
+        }
+
+        if (!config.silent) {
+          showFeedback("error", config.errorMessage || getErrorMessage(error));
+        } else if (pendingLoading.current === 0) {
+          hideFeedback();
+        }
+
         return Promise.reject(error);
       }
     );
@@ -112,7 +142,9 @@ export function FeedbackProvider({ children }) {
   );
 }
 
-// uso: const { showFeedback } = useFeedback(); showFeedback("success", "Pronto!");
+// Uso manual em qualquer componente:
+// const { showFeedback } = useFeedback();
+// showFeedback("success", "Produto adicionado ao carrinho!");
 export function useFeedback() {
   const context = useContext(FeedbackContext);
   if (!context) {

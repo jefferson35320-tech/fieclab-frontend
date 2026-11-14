@@ -391,9 +391,10 @@ export function HomePage() {
 
       {isAdminModalOpen && (
         <AdminLoginModal
-          adminUser={adminUser}
-          onClose={() => setIsAdminModalOpen(false)}
-        />
+        adminUser={adminUser}
+        onClose={() => setIsAdminModalOpen(false)}
+        onLoginSuccess={() => navigate("/admin")}
+      />
       )}
 
       {adminUser && (
