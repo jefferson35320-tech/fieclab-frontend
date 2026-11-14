@@ -25,12 +25,12 @@ export function typeLabel(categoria) {
 
 // O backend guarda em "imagem" só o nome do arquivo (ex.: "abc123.jpg") ou uma
 // URL completa. Se for só o nome, montamos o endereço em cima da URL da API.
-// ATENÇÃO: o backend precisa SERVIR a pasta "uploads" nesse caminho.
+// O backend serve as imagens (rota pública) em /images/<arquivo>.
 export function imageSrc(imagem) {
   if (!imagem) return "";
   if (/^(https?:)?\/\//.test(imagem) || imagem.startsWith("data:")) return imagem;
   const base = String(api.defaults.baseURL || "").replace(/\/$/, "");
-  return `${base}/uploads/${imagem}`;
+  return `${base}/images/${imagem}`;
 }
 
 export function mapApiProduct(p) {

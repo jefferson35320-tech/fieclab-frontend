@@ -109,11 +109,19 @@ export function HomePage() {
       .catch((err) => {
         console.error("Não foi possível carregar os produtos:", err);
         const status = err.response && err.response.status;
-        setProductsError(
-          status === 401 || status === 403
-            ? "O servidor recusou o acesso aos produtos (401/403)."
-            : "Não foi possível conectar ao servidor."
-        );
+
+        if (status === 401 || status === 403) {
+          // sem login, ou token vencido: limpa o token e pede para entrar
+          try {
+            localStorage.removeItem("token");
+          } catch {
+            // sem localStorage: segue sem limpar
+          }
+          setProductsStatus("login");
+          return;
+        }
+
+        setProductsError("Não foi possível conectar ao servidor.");
         setProductsStatus("error");
       });
   }
@@ -310,6 +318,17 @@ export function HomePage() {
           <p className="py-10 text-center text-sm text-muted">
             Carregando produtos...
           </p>
+        ) : productsStatus === "login" ? (
+          <div className="py-10 text-center text-sm text-muted">
+            <p className="m-0 mb-3">Entre na sua conta para ver os produtos.</p>
+            <button
+              type="button"
+              className="cursor-pointer rounded-full border-0 bg-primary px-5 py-2.5 font-body text-[13px] font-semibold text-white transition hover:bg-primary-dark"
+              onClick={() => navigate("/login")}
+            >
+              Entrar
+            </button>
+          </div>
         ) : productsStatus === "error" ? (
           <div className="py-10 text-center text-sm text-muted">
             <p className="m-0 mb-3">{productsError}</p>
