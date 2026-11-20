@@ -17,7 +17,6 @@ import { auth } from "../../firebase.config";
 import SplashScreen from "../../components/SplashScreen";
 import WelcomeScreen from "../../components/WelcomeScreen";
 
-
 import { createOrder } from "../../data/orders";
 import { mapApiProduct, extractList, CATEGORIAS } from "../../data/productMapper";
 import { productService } from "../../services/productService";
@@ -117,11 +116,18 @@ export function HomePage() {
         const products = extractList(data)
           .map(mapApiProduct)
           .filter((product) => product.ativo) // produtos desativados não aparecem
-          .map((product) =>
-            Object.prototype.hasOwnProperty.call(stockOverrides, product.id)
-              ? { ...product, stock: stockOverrides[product.id] }
-              : product
-          );
+          .map((product) => {
+            const updatedImage = "http://localhost:8080/images"+product.image;
+            const withImage = {
+              ...product,
+              image: updatedImage,
+              imageUrl: updatedImage,
+            };
+
+            return Object.prototype.hasOwnProperty.call(stockOverrides, product.id)
+              ? { ...withImage, stock: stockOverrides[product.id] }
+              : withImage;
+          });
 
         setProductList(products);
         setProductsStatus("ready");
@@ -352,7 +358,6 @@ export function HomePage() {
     return <WelcomeScreen onContinue={() => setStage("catalog")} />;
   }
 
-
   return (
     <div>
       <Header
@@ -482,10 +487,10 @@ export function HomePage() {
 
       {isAdminModalOpen && (
         <AdminLoginModal
-        adminUser={adminUser}
-        onClose={() => setIsAdminModalOpen(false)}
-        onLoginSuccess={() => navigate("/admin")}
-      />
+          adminUser={adminUser}
+          onClose={() => setIsAdminModalOpen(false)}
+          onLoginSuccess={() => navigate("/admin")}
+        />
       )}
 
       {adminUser && (
@@ -504,4 +509,3 @@ export function HomePage() {
     </div>
   );
 }
-

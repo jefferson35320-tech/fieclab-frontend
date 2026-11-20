@@ -229,7 +229,7 @@ export function AdminPage() {
 
               <button
                 type="button"
-                onClick={() => navigate("/admin")}
+                onClick={() => navigate("/home")}
                 className="rounded-brand border border-line bg-surface p-6 text-left shadow-brand-sm transition hover:-translate-y-0.5 hover:border-primary-light"
               >
                 <ArrowLeft className="mb-4 h-7 w-7 text-muted" />
