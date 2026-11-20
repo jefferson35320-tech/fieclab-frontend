@@ -46,7 +46,7 @@ export function mapApiProduct(p) {
     ativo: p.ativo !== false,
     categoria: p.categoria,
     category: typeLabel(p.categoria),
-    image: imageSrc(p.imagem),
+    image: p.imagem,
     imagem: p.imagem || "",
     dataFabricacao: p.dataFabricacao,
     validade: p.validade,

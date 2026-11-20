@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { LogOut, ShieldCheck } from "lucide-react";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 
@@ -21,6 +22,8 @@ function friendlyError(code) {
 }
 
 function AdminLoginModal({ adminUser, onClose }) {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -34,20 +37,25 @@ function AdminLoginModal({ adminUser, onClose }) {
   }, [onClose]);
 
   async function handleSubmit(e) {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
+  e.preventDefault();
+  setError("");
+  setLoading(true);
 
-    try {
-      await signInWithEmailAndPassword(auth, email.trim(), password);
-      setPassword("");
-      onClose();
-    } catch (err) {
-      setError(friendlyError(err.code));
-    } finally {
-      setLoading(false);
-    } 
+  try {
+    await signInWithEmailAndPassword(auth, email.trim(), password);
+
+    setPassword("");
+    onClose();
+
+    // Redireciona somente depois que o login foi confirmado
+    navigate("/admin");
+  } catch (err) {
+    setError(friendlyError(err.code));
+  } finally {
+    setLoading(false);
   }
+}
+
 
   async function handleLogout() {
     await signOut(auth);

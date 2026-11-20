@@ -134,9 +134,9 @@ function ProductDetailPage() {
             </div>
 
             <div className="rounded-brand border border-line bg-surface p-5 shadow-brand-sm sm:p-7">
-              {product.imageUrl && (
+              {product.id && (
                 <img
-                  src={product.imageUrl}
+                  src={product.image}
                   alt={product.name}
                   className="mb-6 h-48 w-full rounded-brand object-cover"
                   onError={(event) => {

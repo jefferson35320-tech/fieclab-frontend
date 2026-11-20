@@ -17,7 +17,6 @@ import { auth } from "../../firebase.config";
 import SplashScreen from "../../components/SplashScreen";
 import WelcomeScreen from "../../components/WelcomeScreen";
 
-
 import { createOrder } from "../../data/orders";
 import { mapApiProduct, extractList, CATEGORIAS } from "../../data/productMapper";
 import { productService } from "../../services/productService";
@@ -25,6 +24,17 @@ import { updateStock } from "../../services/stockService";
 
 // categorias = o enum Categoria do backend
 const BASE_CATEGORIES = CATEGORIAS.map((c) => c.label);
+const RATINGS_STORAGE_KEY = "fieclab_product_ratings";
+const STOCK_STORAGE_KEY = "fieclab_product_stock";
+
+function readLocalStorage(key, fallback) {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
+  } catch {
+    return fallback;
+  }
+}
 
 // guarda dados da sessão (etapa da tela inicial e carrinho) para não perder
 // ao ir para /login e voltar
@@ -55,7 +65,10 @@ export function HomePage() {
   const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("Todos");
-  const [ratingOverrides, setRatingOverrides] = useState({});
+  const [ratingOverrides, setRatingOverrides] = useState(() =>
+    readLocalStorage(RATINGS_STORAGE_KEY, {})
+  );
+  const [isFinalizingOrder, setIsFinalizingOrder] = useState(false);
   const [adminUser, setAdminUser] = useState(null);
   const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
   const [isAdminPanelOpen, setIsAdminPanelOpen] = useState(false);
@@ -99,11 +112,24 @@ export function HomePage() {
     return productService
       .findAll({ page: 0, size: 100 })
       .then((data) => {
-        setProductList(
-          extractList(data)
-            .map(mapApiProduct)
-            .filter((product) => product.ativo) // produtos desativados não aparecem
-        );
+        const stockOverrides = readLocalStorage(STOCK_STORAGE_KEY, {});
+        const products = extractList(data)
+          .map(mapApiProduct)
+          .filter((product) => product.ativo) // produtos desativados não aparecem
+          .map((product) => {
+            const updatedImage = "http://localhost:8080/images"+product.image;
+            const withImage = {
+              ...product,
+              image: updatedImage,
+              imageUrl: updatedImage,
+            };
+
+            return Object.prototype.hasOwnProperty.call(stockOverrides, product.id)
+              ? { ...withImage, stock: stockOverrides[product.id] }
+              : withImage;
+          });
+
+        setProductList(products);
         setProductsStatus("ready");
       })
       .catch((err) => {
@@ -156,23 +182,39 @@ export function HomePage() {
       ? productList
       : productList.filter((product) => product.category === selectedCategory);
 
-  // atualiza a média de avaliação do produto com a nova nota do usuário
+  // atualiza e persiste a média de avaliação do produto
   function handleRate(productId, value) {
     setRatingOverrides((prev) => {
-      const product = productList.find((p) => p.id === productId);
+      const product = productList.find((item) => item.id === productId);
+      if (!product) return prev;
+
       const current = prev[productId] || {
-        rating: product.rating,
-        count: product.ratingCount,
+        rating: product.rating || 0,
+        count: product.ratingCount || 0,
       };
 
       const newCount = current.count + 1;
       const newRating =
         (current.rating * current.count + value) / newCount;
 
-      return {
+      const updatedRatings = {
         ...prev,
-        [productId]: { rating: newRating, count: newCount },
+        [productId]: {
+          rating: newRating,
+          count: newCount,
+        },
       };
+
+      try {
+        localStorage.setItem(
+          RATINGS_STORAGE_KEY,
+          JSON.stringify(updatedRatings)
+        );
+      } catch (error) {
+        console.error("Não foi possível salvar a avaliação:", error);
+      }
+
+      return updatedRatings;
     });
   }
 
@@ -232,19 +274,74 @@ export function HomePage() {
     setIsCartOpen(!isCartOpen);
   }
 
-  function finalizeOrder() {
-    if (cart.length === 0) return;
+  async function finalizeOrder() {
+    if (cart.length === 0 || isFinalizingOrder) return;
 
-    const total = cart.reduce(
-      (sum, item) => sum + item.price * item.quantity,
-      0
-    );
+    const quantitiesByProduct = cart.reduce((result, item) => {
+      result[item.productId] =
+        (result[item.productId] || 0) + item.quantity;
+      return result;
+    }, {});
 
-    const newOrder = createOrder(cart, total);
+    setIsFinalizingOrder(true);
 
-    setOrder(newOrder);
-    setCart([]);
-    setIsConfirmationPopupOpen(true);
+    try {
+      const updatedStock = {};
+
+      for (const [productId, quantity] of Object.entries(
+        quantitiesByProduct
+      )) {
+        const product = productList.find(
+          (item) => String(item.id) === String(productId)
+        );
+
+        if (!product) {
+          throw new Error("Um dos produtos do carrinho não foi encontrado.");
+        }
+
+        const currentStock = Number(product.stock);
+        const newStock = currentStock - quantity;
+
+        if (!Number.isFinite(currentStock) || newStock < 0) {
+          throw new Error(
+            `Estoque insuficiente para o produto "${product.name}".`
+          );
+        }
+
+        await updateStock(productId, newStock);
+        updatedStock[productId] = newStock;
+      }
+
+      setProductList((previousProducts) =>
+        previousProducts.map((product) =>
+          Object.prototype.hasOwnProperty.call(updatedStock, product.id)
+            ? { ...product, stock: updatedStock[product.id] }
+            : product
+        )
+      );
+
+      const savedStock = readLocalStorage(STOCK_STORAGE_KEY, {});
+      const nextStock = { ...savedStock, ...updatedStock };
+      localStorage.setItem(STOCK_STORAGE_KEY, JSON.stringify(nextStock));
+
+      const total = cart.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0
+      );
+
+      const newOrder = createOrder(cart, total);
+
+      setOrder(newOrder);
+      setCart([]);
+      setIsConfirmationPopupOpen(true);
+    } catch (error) {
+      console.error("Não foi possível concluir o pedido:", error);
+      window.alert(
+        error.message || "Não foi possível concluir o pedido."
+      );
+    } finally {
+      setIsFinalizingOrder(false);
+    }
   }
 
   function startNewOrder() {
@@ -261,7 +358,6 @@ export function HomePage() {
     return <WelcomeScreen onContinue={() => setStage("catalog")} />;
   }
 
-
   return (
     <div>
       <Header
@@ -271,7 +367,7 @@ export function HomePage() {
         onAdminClick={() =>
           adminUser ? setIsAdminModalOpen(true) : navigate("/login")
         }
-        onPanelClick={() => setIsAdminPanelOpen(true)}
+        onPanelClick={() => navigate("/admin")}
       />
 
       <div className="mx-auto max-w-[1240px] px-5 pb-20 pt-10 sm:px-14">
@@ -393,6 +489,7 @@ export function HomePage() {
         <AdminLoginModal
           adminUser={adminUser}
           onClose={() => setIsAdminModalOpen(false)}
+          onLoginSuccess={() => navigate("/admin")}
         />
       )}
 
@@ -412,4 +509,3 @@ export function HomePage() {
     </div>
   );
 }
-
